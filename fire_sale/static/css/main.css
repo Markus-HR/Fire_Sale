@@ -1,0 +1,17 @@
+body {
+  background-color: #EDE8CF;
+}
+
+.navbar {
+  padding: 0px;
+  height: 50px;
+  display: inline;
+}
+
+.container-fluid {
+  background-color: #7CD1B8;
+}
+
+.container {
+  background-color: #b8ddc4;
+}
