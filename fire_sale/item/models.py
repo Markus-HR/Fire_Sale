@@ -1,3 +1,13 @@
 from django.db import models
 
-# Create your models here.
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+
+
+class Item(models.Model):
+    name = models.CharField(max_length=255)
+    item_picture = models.CharField(max_length=9999)
+    condition = models.CharField(max_length=255)
+    long_description = models.CharField(max_length=500, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
