@@ -2,16 +2,39 @@ body {
   background-color: #EDE8CF;
 }
 
-.navbar {
-  padding: 0px;
-  height: 50px;
-  display: inline;
+.navbar.navbar-light.bg-light{
+  padding: 0;
+}
+
+.d-inline-block.align-text-top {
+  height: 3rem;
+  width: 3rem;
 }
 
 .container-fluid {
   background-color: #7CD1B8;
+  height: 4rem;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: row;
+}
+
+#Nav-Bar-Title {
+  font-size: 2rem;
+  padding-left: 0.5rem;
 }
 
 .container {
   background-color: #b8ddc4;
+}
+
+footer {
+  position: fixed;
+  background-color: #7CD1B8;
+  height: 4rem;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
 }
