@@ -26,8 +26,20 @@ body {
   padding-left: 0.5rem;
 }
 
+.dropdown-menu.dropdown-menu-right {
+  background-color: #FAEDC6;
+  position: absolute;
+  right: 0;
+  left: auto;
+}
+
+.dropdown-header {
+  text-align: center;
+}
+
 .container {
   background-color: #b8ddc4;
+    min-height: 40rem;
 }
 
 footer {
