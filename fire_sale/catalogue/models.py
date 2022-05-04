@@ -1,6 +1,6 @@
 from django.db import models
 from item.models import Items
-from user_profile.models import User
+from user_profile.models import UserProfile
 
 
 class Postings(models.Model):
@@ -11,6 +11,12 @@ class Postings(models.Model):
 
 class Bids(models.Model):
     posting_id = models.ForeignKey(Postings, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     price = models.FloatField()
     accept = models.BooleanField()
+
+
+class Ratings(models.Model):
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    posting_id = models.ForeignKey(Postings, on_delete=models.CASCADE)
+    rating = models.IntegerField()
