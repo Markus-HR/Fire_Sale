@@ -5,7 +5,7 @@ class Category(models.Model):
     name = models.CharField(max_length=255)
 
 
-class Item(models.Model):
+class Items(models.Model):
     name = models.CharField(max_length=255)
     item_picture = models.CharField(max_length=9999)
     condition = models.CharField(max_length=255)

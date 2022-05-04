@@ -1,16 +1,16 @@
 from django.db import models
-from item.models import Item
-from user_profile import User
+from item.models import Items
+from user_profile.models import User
 
 
-class Posting(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=CASCADE)
+class Postings(models.Model):
+    item_id = models.ForeignKey(Items, on_delete=models.CASCADE)
     open = models.BooleanField()
-    creation_date = DateTimeField()
+    creation_date = models.DateTimeField()
 
 
 class Bids(models.Model):
-    posting_id = models.ForeignKey(Posting, on_delete=CASCADE)
-    user_id = models.ForeignKey(User, on_delete=CASCADE)
+    posting_id = models.ForeignKey(Postings, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.FloatField()
     accept = models.BooleanField()
