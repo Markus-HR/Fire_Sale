@@ -50,3 +50,9 @@ footer {
   text-align: center;
   bottom: 0;
 }
+
+.cat-options-box {
+  background-color: red;
+  margin-top: 0.5rem;
+}
+

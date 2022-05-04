@@ -1,0 +1,18 @@
+{% block content %}
+<div class="cat-options-box d-grid gap-3">
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+    <button type="button" class="btn btn-primary btn-lg btn-block">Create Posting</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block">View All Postings</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block">View My Bids</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block">View My Postings</button>
+
+    <div class="cat-options-filters">
+        Filters:
+        {% include 'catalogue/options_filters.html' %}
+    </div>
+
+</div>
+{% endblock %}
