@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from catalogue.models import Postings
 from django.db import models
 
 
@@ -11,5 +12,5 @@ class UserProfile(models.Model):
 
 class Ratings(models.Model):
     user_id = models.ForeignKey(UserProfile)
-    #posting_id = models.ForeignKey(Postings)
+    posting_id = models.ForeignKey(Postings)
     rating = models.IntegerField()
