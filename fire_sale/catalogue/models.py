@@ -11,6 +11,7 @@ class Postings(models.Model):
         return f"{self.item_id_id, self.open, self.creation_date}"
 
 
+
 class Bids(models.Model):
     posting_id = models.ForeignKey(Postings, on_delete=models.CASCADE)
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)

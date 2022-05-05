@@ -1,0 +1,12 @@
+{%  extends 'base.html' %}
+{%  block content %}
+    <h1>{{ item.name }}</h1>
+    <img src="{{ item.item_picture }}" class="item-img"/>
+    <p>{{ item.condition }}</p>
+    <p>{{ item.long_description }}</p>
+    <p>{{ item.category.name }}</p>
+    <h4>Previous bids:</h4>
+    {% for bid in bids %}
+        <p>${{ bid.price }}</p>
+    {%  endfor %}
+{% endblock %}
