@@ -1,63 +1,71 @@
 body {
-  background-color: #EDE8CF;
+    background-color: #EDE8CF;
 }
 
-.navbar.navbar-light.bg-light{
-  padding: 0;
+.navbar.navbar-light.bg-light {
+    padding: 0;
 }
 
 .d-inline-block.align-text-top {
-  height: 3rem;
-  width: 3rem;
+    height: 3rem;
+    width: 3rem;
 }
 
 .container-fluid {
-  background-color: #7CD1B8;
-  height: 4rem;
+    background-color: #7CD1B8;
+    height: 4rem;
 }
 
 .navbar-brand {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
 
 #Nav-Bar-Title {
-  font-size: 2rem;
-  padding-left: 0.5rem;
+    font-size: 2rem;
+    padding-left: 0.5rem;
 }
 
 .dropdown-menu.dropdown-menu-right {
-  background-color: #FAEDC6;
-  position: absolute;
-  right: 0;
-  left: auto;
+    background-color: #FAEDC6;
+    position: absolute;
+    right: 0;
+    left: auto;
 }
 
 .dropdown-header {
-  text-align: center;
+    text-align: center;
 }
 
 .container {
-  background-color: #b8ddc4;
+    background-color: #b8ddc4;
     min-height: 40rem;
 }
 
 footer {
-  position: fixed;
-  background-color: #7CD1B8;
-  height: 4rem;
-  width: 100%;
-  text-align: center;
-  bottom: 0;
+    position: fixed;
+    background-color: #7CD1B8;
+    height: 4rem;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
 }
 
 .cat-options-box {
-  background-color: red;
-  margin-top: 0.5rem;
+    background-color: red;
+    margin-top: 0.5rem;
 }
 
 .cat-grid {
-  display: grid;
-  grid-template-columns: 2fr 2fr 2fr 2fr;
-  background-color: magenta;
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr 2fr;
+    background-color: magenta;
+}
+
+.user-form {
+    text-align: center;
+}
+
+.form-control {
+
 }
