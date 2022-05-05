@@ -61,3 +61,7 @@ footer {
   grid-template-columns: 2fr 2fr 2fr 2fr;
   background-color: magenta;
 }
+
+.btn-primary {
+  background-color: #FABB51;
+}
