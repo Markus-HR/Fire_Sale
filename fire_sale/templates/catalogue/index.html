@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-4">
+            {% include 'catalogue/options.html' %}
+        </div>
+        <div class="col-sm-8">
+            {% include 'catalogue/item_list.html' %}
+        </div>
+    </div>
+{% endblock %}

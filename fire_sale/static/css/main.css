@@ -50,3 +50,14 @@ footer {
   text-align: center;
   bottom: 0;
 }
+
+.cat-options-box {
+  background-color: red;
+  margin-top: 0.5rem;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr 2fr 2fr;
+  background-color: magenta;
+}
