@@ -19,8 +19,9 @@ def index(request):
     return render(request, 'catalogue/index.html', context)
 
 
+# open, date, itemid, name, item_pic, category, max_bid
 def get_post_item():
-    postings = Postings.objects.all()
+    postings = Postings.objects.all().order_by('-creation_date')
     items = Items.objects.all()
     bids = Bids.objects.all()
     post_items = []
@@ -29,6 +30,7 @@ def get_post_item():
         postitem = {'open': post.open, 'date': post.creation_date.date()}
         for item in items:
             if item.id == post.item_id_id:
+                postitem['itemid'] = item.id
                 postitem['name'] = item.name
                 postitem['item_pic'] = item.item_picture
                 postitem['category'] = item.category
