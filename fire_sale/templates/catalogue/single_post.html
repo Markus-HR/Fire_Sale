@@ -1,4 +1,11 @@
 <div>
-    <p>{{ post.item_id }}</p>
-    <p>{{ post.open }}</p>
+    <a href="#">
+        <div class="card" style="width: 12rem;">
+            <img src="{{ post.item_pic }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h6 class="card-title">{{ post.name }}</h6>
+                <p class="card-text">${{ post.max_bid }}</p>
+            </div>
+        </div>
+    </a>
 </div>

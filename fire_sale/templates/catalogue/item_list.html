@@ -1,6 +1,9 @@
 {% block content %}
     <div class="cat-options-box">
         Recent Postings:
+        <div class="row">
+
+        </div>
         {% for post in postings %}
             {% include 'catalogue/single_post.html' with post=post%}
         {% endfor %}
