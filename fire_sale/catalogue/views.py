@@ -1,8 +1,43 @@
 from django.shortcuts import render
+from catalogue.models import Postings, Bids
+from item.models import Items
+from django.template.defaulttags import register
 
-# Create your views here.
-from django.shortcuts import render
+
+@register.filter(name='get_item')
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
 
 # Create your views here.
 def index(request):
-    return render(request, 'catalougue/index.html')
+    context = {'postings': get_post_item()}
+    return render(request, 'catalogue/index.html', context)
+
+
+# open, date, itemid, name, item_pic, category, max_bid
+def get_post_item():
+    postings = Postings.objects.all().order_by('-creation_date')
+    items = Items.objects.all()
+    bids = Bids.objects.all()
+    post_items = []
+    for post in postings:
+        postitem = {}
+        postitem = {'open': post.open, 'date': post.creation_date.date()}
+        for item in items:
+            if item.id == post.item_id_id:
+                postitem['itemid'] = item.id
+                postitem['name'] = item.name
+                postitem['item_pic'] = item.item_picture
+                postitem['category'] = item.category
+                break
+        bid_price_list = []
+        for bid in bids:
+            if bid.posting_id_id == post.id:
+                bid_price_list.append(bid.price)
+        if bid_price_list == []:
+            postitem['max_bid'] = 0
+        else:
+            postitem['max_bid'] = max(bid_price_list)
+        post_items.append(postitem)
+    return post_items
