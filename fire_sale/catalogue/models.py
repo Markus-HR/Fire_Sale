@@ -9,6 +9,7 @@ class Postings(models.Model):
     creation_date = models.DateTimeField()
 
 
+
 class Bids(models.Model):
     posting_id = models.ForeignKey(Postings, on_delete=models.CASCADE)
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
