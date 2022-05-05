@@ -135,4 +135,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'userprofile/login'
-LOGIN_REDIRECT_URL = 'catalogue/'
+LOGIN_REDIRECT_URL = '/catalogue/'
