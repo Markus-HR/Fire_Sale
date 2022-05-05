@@ -11,10 +11,6 @@ def get_item(dictionary, key):
 
 # Create your views here.
 def index(request):
-    # context_list = get_post_item()
-    # context_dict = dict()
-    # for index, value in enumerate(context_list):
-    #     context_dict[index] = value
     context = {'postings': get_post_item()}
     return render(request, 'catalogue/index.html', context)
 
