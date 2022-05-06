@@ -17,7 +17,11 @@
                         <p>Your bid: ${{ user_bid }}</p>
                     </div>
                     <div class="col mt-4">
-                        {% include 'item/make_bid.html' with item=item %}
+                        <form class="form form-horizontal" action="{% url 'index' id=item.id %}"method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" value="Create_bid" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+                        </form>
                     </div>
                 </div>
                 <div class="row">
