@@ -12,5 +12,6 @@ def calc_rating(request):
 
 
 def get_profile(request):
-    user_profile = UserProfile.objects.filter(user_id=request.user.id)
-    return {'user_profile': user_profile}
+    user_profile = UserProfile.objects.filter(user_id=request.user.id)[0]
+    return {'user_profile': user_profile,
+            'user_profile_picture': user_profile.profile_picture}
