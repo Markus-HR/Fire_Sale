@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from static.python.CustomUserForms import RegisterForm, LoginForm
-# from static.python.UserForms import UserLogin
+from django.shortcuts import render, redirect, get_object_or_404
+from catalogue.models import Ratings
+from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, ImageForm
 from django.contrib.auth.views import LoginView
+from user_profile.models import UserProfile
+from statistics import mean
 
 
 def register(request):
@@ -18,5 +20,48 @@ def register(request):
     })
 
 
+# def view_profile(request):
+#     if UserProfile.objects.check(user_id=request.user.id):
+#         user_profiles = UserProfile.objects.get(id=request.user.id)
+#     else:
+#         return edit_profile(request)
+#
+#     return render(request, 'user/view_profile.html', {
+#         'user_profile': user_profiles
+#     })
+
+
+def edit_profile(request):
+    instance = UserProfile.objects.filter(user_id=request.user.id)
+    form2 = ImageForm()
+    if request.method == 'POST':
+        if instance:
+            form = EditProfileForm(data=request.POST, instance=instance)
+        else:
+            form = EditProfileForm(data=request.POST)
+
+        if form.is_valid():
+            form.save(request.user)
+            return redirect('user/view_profile.html')
+    else:
+        if instance:
+            form = EditProfileForm(instance=instance)
+        else:
+            form = EditProfileForm()
+
+    return render(request, 'user/edit_profile.html', {
+        'form': form,
+        'form2': form2
+    })
+
+
 class CustomLoginView(LoginView):
     form_class = LoginForm
+
+
+def calc_rating(request):
+    user_id = request.user.id
+    ratings = Ratings.objects.filter(user_id=user_id)
+    # ratings = Ratings.objects.all()
+    rating_score = mean([x.rating for x in ratings])
+    return {'ratings': ratings, 'rating': str(rating_score)}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="user-form">
+        <h1>Create you account</h1>
+        <form class="user-form" method="post">
+            {% csrf_token %}
+            <br/>
+            {{ form }}
+            <br/>
+{#            <form>#}
+{#                <img src="https://picsum.photos/40/40" alt="" class="d-inline-block align-text-top">#}
+{#                <br/>#}
+{#                <br/>#}
+{#                {{ form2 }}#}
+{#                <input class="btn-primary" type="submit" value="upload" name="upload_image"/>#}
+{#            </form>#}
+            <input class="btn-primary" type="submit" value="edit"/>
+        </form>
+    </div>
+{% endblock %}

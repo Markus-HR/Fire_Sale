@@ -57,3 +57,17 @@ def get_post_item_sort_price(order):
     post_items = get_post_item(query)
     sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=order)
     return sorted_post_items
+
+
+# My bids section
+def my_bids(request):
+    query = Postings.objects.all().order_by('-creation_date')
+    context = {'data': get_post_item(query)}
+    return render(request, 'catalogue/my_bids.html', context)
+
+
+# My postings section
+def my_postings(request):
+    query = Postings.objects.all().order_by('-creation_date')
+    context = {'data': get_post_item(query)}
+    return render(request, 'catalogue/my_postings.html', context)

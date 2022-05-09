@@ -1,10 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="user-form" method="post">
-        {% csrf_token %}
-        <br/>
-        {{ form }}
-        <br/>
-        <input type="submit" value="register"/>
-    </form>
+    <div class="user-form">
+        <h1>Create you account</h1>
+        <form class="user-form" method="post">
+            {% csrf_token %}
+            <br/>
+            {{ form }}
+            <br/>
+            <input class="btn-primary" type="submit" value="register"/>
+        </form>
+    </div>
 {% endblock %}
