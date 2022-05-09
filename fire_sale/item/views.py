@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
 from item.forms.bid_form import BidCreateForm
@@ -27,7 +28,8 @@ def index(request, id):
         'form': form,
         'item': get_object_or_404(Items, pk=id),
         'bids': get_bid_dict(post_id),
-        'user_bid': get_user_max_bid(request.user.username, get_bid_dict(post_id))
+        'bids_lis': get_bids_lis(post_id),
+        'user_bid': get_user_max_bid(request.user.id, get_bids_lis(post_id))
     })
 
 
@@ -44,9 +46,22 @@ def get_bid_dict(post_id):
     return bids_dict
 
 
-def get_user_max_bid(user_name, bids_dict):
-    if user_name in bids_dict:
-        return max(bids_dict[user_name])
+def get_bids_lis(posting_id):
+    bids_lis = []
+    bid_set = Bids.objects.all()
+    for bid in bid_set.iterator():
+        if bid.posting_id == posting_id:
+            bids_lis.append(bid)
+    return bids_lis
+
+
+def get_user_max_bid(id, bids_lis):
+    user_bids = []
+    for bid in bids_lis:
+        if bid.user_id == id:
+            user_bids.append(bid.price)
+    if user_bids:
+        return max(user_bids)
     else:
         return 0
 
@@ -59,8 +74,8 @@ def get_post_id(id):
 
 
 def get_user_name(id):
-    user_set = UserProfile.objects.all()
+    user_set = User.objects.all()
     for user in user_set.iterator():
         if user.id == id:
-            return user.user.username
+            return user.username
 

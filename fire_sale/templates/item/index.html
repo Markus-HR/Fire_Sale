@@ -46,5 +46,8 @@
                 <p>${{ price }} from {{ key }}</p>
             {% endfor %}
         {%  endfor %}
+        {% for bid in bids_lis %}
+            <p>!!!{{ bid.price }} from {{ bid.user.username }}</p>
+        {% endfor %}
     </div>
 {% endblock %}
