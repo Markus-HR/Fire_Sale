@@ -31,7 +31,6 @@ def register(request):
 
 
 def edit_profile(request):
-    # instance = get_object_or_404(UserProfile, user_id=request.user.id)
     instance = UserProfile.objects.filter(user_id=request.user.id)
     form2 = ImageForm()
     if request.method == 'POST':
@@ -61,5 +60,10 @@ class CustomLoginView(LoginView):
 
 def calc_rating(request):
     user_id = request.user.id
-    ratings = Ratings.objects.get(user_id=user_id)
-    return {'ratings': ratings}
+    # ratings = Ratings.objects.get(user_id=user_id)
+    ratings = Ratings.objects.all()
+    temp = []
+    for rating in ratings:
+        if rating.user_id == user_id:
+            temp.push(rating)
+    return {'ratings': temp}
