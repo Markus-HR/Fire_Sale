@@ -7,9 +7,10 @@ class Postings(models.Model):
     item = models.ForeignKey(Items, on_delete=models.CASCADE)
     open = models.BooleanField()
     creation_date = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.item_id, self.open, self.creation_date}"
+        return f"{self.item, self.open, self.creation_date}"
 
 
 class Bids(models.Model):
