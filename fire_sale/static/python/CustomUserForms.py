@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
 from django import forms
+from django.contrib.auth.models import User
+from django.db.transaction import commit
+from user_profile.models import UserProfile
 
 
 class RegisterForm(UserCreationForm):
@@ -62,3 +64,35 @@ class LoginForm(AuthenticationForm):
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
+
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = (
+            'bio',
+        )
+
+    bio = forms.CharField(
+        label='Bio',
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Bio',
+                   'style': 'width: 300px;'
+                            'height: 200px'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
+
+    img = forms.ImageField()
+
+    def save(self, user, img):
+        user_profile = super().save(commit=False)
+        user_profile.user_id = user.id
+        user_profile.profile_picture = img
+        if commit:
+            user_profile.save()
+        return user_profile
+
+
+class ImageForm(forms.Form):
+    img = forms.ImageField()
