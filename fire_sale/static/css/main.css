@@ -65,6 +65,16 @@ footer {
 .user-form {
     text-align: center;
 }
+@media only screen and (min-width: 100px) and (max-width: 1400px){
+  .cat-grid {
+    grid-template-columns: 2fr 2fr 2fr;
+  }
+}
+@media only screen and (min-width: 800px) and (max-width: 1000px) {
+  .cat-grid {
+    grid-template-columns: 2fr 2fr;
+  }
+}
 
 .btn-primary {
   color: black;

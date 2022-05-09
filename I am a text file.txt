@@ -1,1 +1,12 @@
-this is a text file
+model classes done
+
+Next:
+html
+views
+
+
+TODO:
+create catalogue sites
+create checkout sites
+create item sites
+create user sites
