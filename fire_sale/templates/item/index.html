@@ -13,15 +13,24 @@
                         <p>Condition: {{ item.condition }}</p>
                         <p>Category: {{ item.category.name }}</p>
                     </div>
-                    <div class="col mt-4">
+                    <div class="col mt-4" style="height:100%;">
                         <p>Your bid: ${{ user_bid }}</p>
                     </div>
-                    <div class="col mt-4">
+                    <div class="col mt-4 " style="position:relative;">
+                        <p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Create bid
+  </a>
+</p>
+<div class="collapse" id="collapseExample" style="position:absolute; right:20%; width: 90%">
+  <div class="card card-body">
                         <form class="form form-horizontal" action="{% url 'index' id=item.id %}"method="post">
                             {% csrf_token %}
                             {{ form }}
-                            <input type="submit" value="Create_bid" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
-                        </form>
+                            <input type="submit" value="Create_bid" class="btn btn-primary pull-right" data-bs-toggle="collapse" href="#collapseExample" role="button" style="clear:both; margin: 10px 0"/>
+                        </form>  </div>
+</div>
+
                     </div>
                 </div>
                 <div class="row">
@@ -33,7 +42,9 @@
         </div>
         <h4>Previous bids:</h4>
         {% for key, value in bids.items %}
-            <p>${{ key }} from {{ value }}</p>
+            {% for price in value%}
+                <p>${{ price }} from {{ key }}</p>
+            {% endfor %}
         {%  endfor %}
     </div>
 {% endblock %}
