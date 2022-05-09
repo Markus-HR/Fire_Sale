@@ -71,6 +71,7 @@ class EditProfileForm(forms.ModelForm):
         model = UserProfile
         fields = (
             'bio',
+            'profile_picture'
         )
 
     bio = forms.CharField(
@@ -83,7 +84,16 @@ class EditProfileForm(forms.ModelForm):
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    img = forms.ImageField()
+    # img = forms.ImageField()
+    profile_picture = forms.CharField(
+        label='image',
+        widget=forms.TextInput(
+            attrs={'placeholder': 'URL',
+                   'style': 'width: 300px;'
+                            'height: 200px'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
 
     def save(self, user, img):
         user_profile = super().save(commit=False)
