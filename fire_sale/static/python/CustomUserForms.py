@@ -95,10 +95,10 @@ class EditProfileForm(forms.ModelForm):
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    def save(self, user, img):
+    def save(self, user):
         user_profile = super().save(commit=False)
         user_profile.user_id = user.id
-        user_profile.profile_picture = img
+        # user_profile.profile_picture = img
         if commit:
             user_profile.save()
         return user_profile

@@ -30,26 +30,26 @@ def register(request):
 
 
 def edit_profile(request):
-    instance = UserProfile.objects.filter(user_id=request.user.id)
-    form2 = ImageForm()
-    if request.method == 'POST':
-        if instance:
+    if UserProfile.objects.filter(user_id=request.user.id).exists():
+        instance = UserProfile.objects.filter(user_id=request.user.id)[0]
+        if request.method == 'POST':
             form = EditProfileForm(data=request.POST, instance=instance)
+            if form.is_valid():
+                form.save(request.user)
+                return redirect('profile')
         else:
-            form = EditProfileForm(data=request.POST)
-
-        if form.is_valid():
-            form.save(request.user)
-            return redirect('user/view_profile.html')
-    else:
-        if instance:
             form = EditProfileForm(instance=instance)
+    else:
+        if request.method == 'POST':
+            form = EditProfileForm(data=request.POST)
+            if form.is_valid():
+                form.save(request.user)
+                return redirect('profile')
         else:
             form = EditProfileForm()
 
     return render(request, 'user/edit_profile.html', {
         'form': form,
-        'form2': form2
     })
 
 
