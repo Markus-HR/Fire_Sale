@@ -1,8 +1,8 @@
 {% block content %}
-    <div class="cat-options-box">
+    <div class="cat-options-box", id="catalogue-items">
         Recent Postings:
         <div class="cat-grid">
-            {% for post in postings %}
+            {% for post in data %}
                 {% include 'catalogue/single_post.html' with post=post%}
             {% endfor %}
         </div>

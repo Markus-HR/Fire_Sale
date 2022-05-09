@@ -1,12 +1,39 @@
 {%  extends 'base.html' %}
 {%  block content %}
-    <h1>{{ item.name }}</h1>
-    <img src="{{ item.item_picture }}" class="item-img"/>
-    <p>{{ item.condition }}</p>
-    <p>{{ item.long_description }}</p>
-    <p>{{ item.category.name }}</p>
-    <h4>Previous bids:</h4>
-    {% for bid in bids %}
-        <p>${{ bid.price }}</p>
-    {%  endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col mt-4">
+                <img src="{{ item.item_picture }}"  class="img-fluid rounded img-thumbnail" alt="Responsive image">
+            </div>
+            <div class="col-8 mt-4">
+                <div class="row">
+                    <div class="col-5">
+                        <h3>{{ item.name }}</h3>
+                        <p>Highest offer: </p>
+                        <p>Condition: {{ item.condition }}</p>
+                        <p>Category: {{ item.category.name }}</p>
+                    </div>
+                    <div class="col mt-4">
+                        <p>Your bid: ${{ user_bid }}</p>
+                    </div>
+                    <div class="col mt-4">
+                        <form class="form form-horizontal" action="{% url 'index' id=item.id %}"method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" value="Create_bid" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>{{ item.long_description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4>Previous bids:</h4>
+        {% for key, value in bids.items %}
+            <p>${{ key }} from {{ value }}</p>
+        {%  endfor %}
+    </div>
 {% endblock %}
