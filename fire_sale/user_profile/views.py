@@ -3,6 +3,7 @@ from catalogue.models import Ratings
 from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, ImageForm
 from django.contrib.auth.views import LoginView
 from user_profile.models import UserProfile
+from statistics import mean
 
 
 def register(request):
@@ -60,10 +61,7 @@ class CustomLoginView(LoginView):
 
 def calc_rating(request):
     user_id = request.user.id
-    # ratings = Ratings.objects.get(user_id=user_id)
-    ratings = Ratings.objects.all()
-    temp = []
-    for rating in ratings:
-        if rating.user_id == user_id:
-            temp.push(rating)
-    return {'ratings': temp}
+    ratings = Ratings.objects.filter(user_id=user_id)
+    # ratings = Ratings.objects.all()
+    rating_score = mean([x.rating for x in ratings])
+    return {'ratings': ratings, 'rating': str(rating_score)}
