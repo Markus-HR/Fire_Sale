@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from catalogue.models import Ratings
+from django.shortcuts import render, redirect
 from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, ImageForm
 from django.contrib.auth.views import LoginView
 from user_profile.models import UserProfile
-from statistics import mean
 
 
 def register(request):
@@ -57,11 +55,3 @@ def edit_profile(request):
 
 class CustomLoginView(LoginView):
     form_class = LoginForm
-
-
-def calc_rating(request):
-    user_id = request.user.id
-    ratings = Ratings.objects.filter(user_id=user_id)
-    # ratings = Ratings.objects.all()
-    rating_score = mean([x.rating for x in ratings])
-    return {'ratings': ratings, 'rating': str(rating_score)}
