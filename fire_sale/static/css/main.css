@@ -38,7 +38,7 @@ body {
 }
 
 .container {
-    background-color: #b8ddc4;
+    /*background-color: #b8ddc4;*/
     min-height: 40rem;
 }
 
@@ -52,32 +52,65 @@ footer {
 }
 
 .cat-options-box {
-    background-color: red;
+    background-color: #b8ddc4;
     margin-top: 0.5rem;
+    padding: 1rem;
 }
 
 .cat-grid {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr 2fr;
-    background-color: magenta;
+    /*background-color: magenta;*/
 }
 
 .user-form {
     text-align: center;
 }
+
 @media only screen and (min-width: 100px) and (max-width: 1400px){
   .cat-grid {
     grid-template-columns: 2fr 2fr 2fr;
   }
 }
-@media only screen and (min-width: 800px) and (max-width: 1000px) {
+@media only screen and (min-width: 0px) and (max-width: 1000px) {
   .cat-grid {
     grid-template-columns: 2fr 2fr;
   }
 }
 
 .btn-primary {
-  color: black;
-  background-color: #FABB51;
-  border-color: black;
+    color: black;
+    background-color: #FABB51;
+    border-color: black;
+}
+
+#search-btn {
+    color: black;
+    background-color: #FABB51;
+    border-color: black;
+}
+
+.card {
+    width: 10rem;
+    height: 12rem;
+    background-color: #faedc6;
+    color: black;
+}
+
+.card-body {
+    padding-top: 0.5rem;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 8rem;
+    min-height: 8rem;
+}
+
+#profile-pic {
+    border-radius: 50%;
 }
