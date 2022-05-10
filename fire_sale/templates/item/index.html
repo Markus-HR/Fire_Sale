@@ -41,6 +41,9 @@
                 </div>
             </div>
         </div>
+        <div class="">
+            {% include 'catalogue/item_list.html' %}
+        </div>
         <h4>Previous bids:</h4>
         {% for bid in bids %}
             <p>{{ bid.price }} from {{ bid.user.username }}</p>
