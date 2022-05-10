@@ -62,13 +62,25 @@ def get_post_item_sort_price(order):
 
 # My bids section
 def my_bids(request):
+    if 'search_filter' in request.GET:
+        search_filter = request.GET['search_filter']
+        search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter)
+        post_item = get_post_item(search_query)
+        return JsonResponse({'data': post_item})
     query = Postings.objects.filter(bids__user=request.user.id)
     context = {'data': get_post_item(query)}
-    return render(request, 'catalogue/my_bids.html', context)
+    return render(request, 'catalogue/bids/my_bids.html', context)
 
 
 # My postings section
 def my_postings(request):
+    if 'search_filter' in request.GET:
+        search_filter = request.GET['search_filter']
+        search_query = Postings.objects.filter(user=request.user.id, item__name__icontains=search_filter)
+        post_item = get_post_item(search_query)
+        return JsonResponse({'data': post_item})
     query = Postings.objects.filter(user=request.user.id)
     context = {'data': get_post_item(query)}
-    return render(request, 'catalogue/my_postings.html', context)
+    return render(request, 'catalogue/posting/my_postings.html', context)
+
+
