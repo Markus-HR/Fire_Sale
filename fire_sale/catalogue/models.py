@@ -19,6 +19,8 @@ class Bids(models.Model):
     price = models.FloatField()
     accept = models.BooleanField()
 
+    def __lt__(self, other):
+        return self.price < other.price
 
 class Ratings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
