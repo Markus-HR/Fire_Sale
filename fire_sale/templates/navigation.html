@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'catalogue-index' %}">
             <img src="https://bestanimations.com/media/fire/415150878fire-flames-burning-close-up-animated-gif-image.gif"
                  alt="" class="d-inline-block align-text-top">
             <div id="Nav-Bar-Title"> Fire-Sale</div>
@@ -20,6 +20,7 @@
                 <li><a class=" dropdown-item" href="{% url 'logout' %}">Logout</a></li>
             {% else %}
                 <li><a class=" dropdown-item" href="{% url 'login' %}">Login</a></li>
+                <li><a class=" dropdown-item" href="{% url 'register' %}">Register</a></li>
             {% endif %}
         </ul>
 
