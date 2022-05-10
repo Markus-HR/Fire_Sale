@@ -13,6 +13,13 @@
                         <p>Condition: {{ item.condition }}</p>
                         <p>Category: {{ item.category.name }}</p>
                     </div>
+                    {% if not user.is_authenticated %}
+                        <div class="col mt-8">
+                            <a class="btn btn-primary" href="{% url 'login' %}" role="button">
+                                Log in to post bid
+                            </a>
+                        </div>
+                    {% else %}
                     <div class="col mt-4" style="height:100%;">
                         <p>Your bid: ${{ user_bid }}</p>
                     </div>
@@ -31,18 +38,19 @@
                                     <input value="Cancel" class="btn btn-primary pull-right" data-bs-toggle="collapse" href="#collapseExample" role="button" style="clear:both; margin: 10px 0;width:100%"/>
                                 </form>  </div>
                         </div>
+                        {% endif %}
 
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
+                    <div class="col" style="width: 20%;">
                         <p>{{ item.long_description }}</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="">
-            {% include 'catalogue/item_list.html' %}
+            {% include 'item/related_items.html' %}
         </div>
         <h4>Previous bids:</h4>
         {% for bid in bids %}
