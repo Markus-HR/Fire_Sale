@@ -24,12 +24,13 @@ def index(request, id):
             redirect('index/'+str(id))
     else:
         form = BidCreateForm()
+    bids_lis = get_bids_lis(post_id)
     return render(request, 'item/index.html', {
         'form': form,
         'item': get_object_or_404(Items, pk=id),
-        'bids': get_bid_dict(post_id),
-        'bids_lis': get_bids_lis(post_id),
-        'user_bid': get_user_max_bid(request.user.id, get_bids_lis(post_id))
+        'bids': bids_lis,
+        'max_bid': max(bids_lis),
+        'user_bid': get_user_max_bid(request.user.id, bids_lis)
     })
 
 
@@ -52,7 +53,7 @@ def get_bids_lis(posting_id):
     for bid in bid_set.iterator():
         if bid.posting_id == posting_id:
             bids_lis.append(bid)
-    return bids_lis
+    return sorted(bids_lis, reverse=True)
 
 
 def get_user_max_bid(id, bids_lis):
