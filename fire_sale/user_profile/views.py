@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, ImageForm
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import logout as LogoutUser
 from user_profile.models import UserProfile
 
 
@@ -16,6 +17,11 @@ def register(request):
     return render(request, 'user/register.html', {
         'form': form
     })
+
+
+def logout(request):
+    LogoutUser(request)
+    return redirect('login')
 
 
 # def view_profile(request):
@@ -55,3 +61,5 @@ def edit_profile(request):
 
 class CustomLoginView(LoginView):
     form_class = LoginForm
+
+
