@@ -1,13 +1,15 @@
-MV	checkout
+MV W	checkout
 	create post
-LM	similar items in item site
+LM W	similar items in item site
 MV X	logout
-	guest view
+DK X	guest view catalogue
+MV X	guest view navbar and login
+LM	guest view item view
 LM	add date to item site
 MV X	make landing site work -- login or guestview catalogue
-	accept offer
+DK	accept offer
 DK	view my bids - proceed to checkout
-MV	Make Firesale logo redirect
+MV X	Make Firesale logo redirect
 	Allow people to view others profiles (name, bio, profile pic)
 
 A	tutorial video
