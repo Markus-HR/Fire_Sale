@@ -3,7 +3,7 @@
     <div class="user-form">
         <h1>Welcome to Fire-Sale</h1>
         <h1>Please Login to your account</h1>
-        <p1>or create a new account</p1>
+        <a href="{% url 'register' %}">or create a new account</a>
         <form method="post">
             {% csrf_token %}
             <br/>
