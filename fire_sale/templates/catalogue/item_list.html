@@ -1,6 +1,5 @@
 {% block content %}
     <div class="cat-options-box" id="catalogue-items">
-        Postings:
         <div class="cat-grid">
             {% for post in data %}
                 {% include 'catalogue/single_post.html' with post=post%}

@@ -5,10 +5,9 @@
             <div id="Nav-Bar-Title"> Fire-Sale</div>
         </a>
         <a class="dropdown" href="#">
-            <a class="dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false">
+            <a class="dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 {#                <img src="https://picsum.photos/40/40" alt="" class="d-inline-block align-text-top">#}
-                <img src="{{ user_profile_picture }}" alt="" class="d-inline-block align-text-top">
+                <img src="{{ user_profile_picture }}" alt="" class="d-inline-block align-text-top" id="profile-pic">
             </a>
         </a>
         {% if user.is_authenticated %}
