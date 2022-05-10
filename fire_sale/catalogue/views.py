@@ -18,29 +18,29 @@ def index(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         search_query = Postings.objects.filter(item__name__icontains=search_filter)
-        post_item = get_post_item(search_query)
+        post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
 
     if 'sort_by' in request.GET:
         sort_filter = request.GET['sort_by']
         if sort_filter == 'name':
             sort_query = Postings.objects.all().order_by('item__name')
-            post_item = get_post_item(sort_query)
+            post_item = get_post_item(sort_query, request)
         elif sort_filter == 'high_low':
             post_item = get_post_item_sort_price(True)
         elif sort_filter == 'low_high':
             post_item = get_post_item_sort_price(False)
         else:
-            # Recent or all unexpected sort by filters
+            # Recent or unexpected sort by filters
             sort_query = Postings.objects.all().order_by('-creation_date')
-            post_item = get_post_item(sort_query)
+            post_item = get_post_item(sort_query, request)
         return JsonResponse({'data': post_item})
 
-    context = {'data': get_post_item(query)}
+    context = {'data': get_post_item(query, request)}
     return render(request, 'catalogue/index.html', context)
 
 
-def get_post_item(query):
+def get_post_item(query, request):
     post_item = [{
         'name': x.item.name,
         'item_pic': x.item.item_picture,
@@ -48,7 +48,9 @@ def get_post_item(query):
         'category': x.item.category.name,
         'date': x.creation_date,
         'open': x.open,
-        'itemid': x.item_id
+        'itemid': x.item_id,
+        'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
+        'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
     } for x in query]
     return post_item
 
@@ -65,22 +67,37 @@ def my_bids(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter)
-        post_item = get_post_item(search_query)
+        post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
-    query = Postings.objects.filter(bids__user=request.user.id)
-    context = {'data': get_post_item(query)}
-    return render(request, 'catalogue/bids/my_bids.html', context)
 
+    if 'sort_by' in request.GET:
+        sort_filter = request.GET['sort_by']
+        if sort_filter == 'accepted':
+            sort_query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True)
+            post_item = get_post_item(sort_query, request)
+        elif sort_filter == 'every':
+            sort_query = Postings.objects.filter(bids__user=request.user.id)
+            post_item = get_post_item(sort_query, request)
+        else:
+            # all or unexpected sort by filters
+            sort_query = Postings.objects.filter(bids__user=request.user.id)
+            post_item = get_post_item(sort_query, request)
+        return JsonResponse({'data': post_item})
+
+    query = Postings.objects.filter(bids__user=request.user.id)
+    context = {'data': get_post_item(query, request)}
+    return render(request, 'catalogue/bids/my_bids.html', context)
 
 # My postings section
 def my_postings(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         search_query = Postings.objects.filter(user=request.user.id, item__name__icontains=search_filter)
-        post_item = get_post_item(search_query)
+        post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
+
     query = Postings.objects.filter(user=request.user.id)
-    context = {'data': get_post_item(query)}
+    context = {'data': get_post_item(query, request)}
     return render(request, 'catalogue/posting/my_postings.html', context)
 
 
