@@ -22,6 +22,7 @@ class Bids(models.Model):
     def __lt__(self, other):
         return self.price < other.price
 
+
 class Ratings(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     posting = models.ForeignKey(Postings, on_delete=models.CASCADE)
