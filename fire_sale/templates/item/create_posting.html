@@ -1,0 +1,10 @@
+{%  extends 'base.html' %}
+{%  block content %}
+    <div class="item-container">
+        <form class="form form-horizontal" id="create-posting-form" action="{% url 'create_posting' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Submit" class="btn btn-primary pull-right" role="button"/>
+        </form>
+    </div>
+{% endblock %}

@@ -1,11 +1,13 @@
 {% block content %}
-    <div class="cat-options-box" id="catalogue-items">
-        <div class="cat-grid">
+    <br>
+    <h5>Similar posts</h5>
+    <div class="cat-options-box" id="related-items" >
+        <div class="cat-grid-related" >
             {% if not data %}
                 No similar items found :/
             {% else %}
                 {% for post in data %}
-                    {% include 'catalogue/single_post.html' with post=post%}
+                    {% include 'item/single_related_post.html' with post=post%}
                 {% endfor %}
             {% endif %}
         </div>

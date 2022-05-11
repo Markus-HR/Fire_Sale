@@ -1,7 +1,7 @@
 {%  extends 'base.html' %}
 {%  block content %}
     <div class="container">
-        <div class="row">
+        <div class="row item-container">
             <div class="col mt-4">
                 <img src="{{ item.item_picture }}"  class="img-fluid rounded img-thumbnail" alt="Responsive image">
             </div>
@@ -9,41 +9,23 @@
                 <div class="row">
                     <div class="col-5">
                         <h3>{{ item.name }}</h3>
-                        <p>Highest offer: {{ max_bid.price }}</p>
+                        <p>Highest offer: ${{ max_bid }}</p>
                         <p>Condition: {{ item.condition }}</p>
                         <p>Category: {{ item.category.name }}</p>
                     </div>
                     {% if not user.is_authenticated %}
                         <div class="col mt-8">
+                        <p>You need to be logged in to place bids.</p>
                             <a class="btn btn-primary" href="{% url 'login' %}" role="button">
-                                Log in to post bid
+                                Log in.
                             </a>
                         </div>
                     {% else %}
-                    <div class="col mt-4" style="height:100%;">
-                        <p>Your bid: ${{ user_bid }}</p>
-                    </div>
-                    <div class="col mt-4 " style="position:relative;">
-                        <p>
-                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Create bid
-                            </a>
-                        </p>
-                        <div class="collapse" id="collapseExample" style="position:absolute; right:20%; width: 90%">
-                            <div class="card card-body">
-                                <form class="form form-horizontal text-center" action="{% url 'index' id=item.id %}"method="post">
-                                    {% csrf_token %}
-                                    {{ form }}
-                                    <input type="submit" value="Create_bid" class="btn btn-primary pull-right" role="button" style="clear:both; margin: 10px 0"/>
-                                    <input value="Cancel" class="btn btn-primary pull-right" data-bs-toggle="collapse" href="#collapseExample" role="button" style="clear:both; margin: 10px 0;width:100%"/>
-                                </form>  </div>
-                        </div>
-                        {% endif %}
-
-                    </div>
+                        {% include 'item/collapsable_buttons.html' with bids=bids %}
+                    {% endif %}
                 </div>
                 <div class="row">
-                    <div class="col" style="width: 20%;">
+                    <div class="col">
                         <p>{{ item.long_description }}</p>
                     </div>
                 </div>
@@ -52,9 +34,5 @@
         <div class="">
             {% include 'item/related_items.html' %}
         </div>
-        <h4>Previous bids:</h4>
-        {% for bid in bids %}
-            <p>{{ bid.price }} from {{ bid.user.username }}</p>
-        {% endfor %}
     </div>
 {% endblock %}

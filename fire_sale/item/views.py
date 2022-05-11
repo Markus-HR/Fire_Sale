@@ -1,11 +1,14 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
+import catalogue
 from item.forms.bid_form import BidCreateForm
+from item.forms.posting_form import ItemCreateForm
 from item.models import Items
 from catalogue.models import Bids
 from catalogue.models import Postings
-from user_profile.models import UserProfile
 
 
 # Create your views here.
@@ -21,7 +24,7 @@ def index(request, id):
             bid.accept = False
             bid.price = request.POST["price"]
             bid.save()
-            redirect('index/'+str(id))
+            redirect('item-index', id)
     else:
         form = BidCreateForm()
     bids_lis = get_bids_lis(post_id)
@@ -29,9 +32,26 @@ def index(request, id):
         'form': form,
         'item': get_object_or_404(Items, pk=id),
         'bids': bids_lis,
-        'max_bid': max(bids_lis),
+        'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
         'data': get_post_item(id, post_id)
+    })
+
+
+def create_posting(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        form = ItemCreateForm(data=request.POST)
+        if form.is_valid():
+            item = form.save()
+            item_post = Postings(item=item, open=True, creation_date=datetime.now(), user=request.user)
+            item_post.save()
+            return redirect('catalogue-index')
+    else:
+        form = ItemCreateForm()
+    return render(request, 'item/create_posting.html', {
+        'form': form
     })
 
 
@@ -48,6 +68,13 @@ def get_post_item(item_id, post_id):
         'itemid': x.item_id
     } for x in related_posts]
     return post_item
+
+
+def get_max_bid(bid_lis):
+    if bid_lis:
+        return max(bid_lis).price
+    else:
+        return 0
 
 
 def get_related_posts(cat_id, post_id):
