@@ -87,16 +87,17 @@ def get_user_name(id):
 # View Offers Section
 
 def view_offers(request, id):
+    post_id = get_post_id(id)
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
-        'bids': get_post_bids(id),
+        'bids': get_post_bids(post_id),
     })
 
 
 def accept_offer(request, bidid):
     instance = get_object_or_404(Bids, pk=bidid)
     Bids.objects.filter(pk=instance.pk).update(accept=True)
-    return redirect('catalogue-index')
+    return redirect('catalogue-postings')
 
 
 def get_post_bids(post_id):
