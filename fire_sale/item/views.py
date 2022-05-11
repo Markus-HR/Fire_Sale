@@ -116,14 +116,8 @@ def get_post_id(id):
             return post.id
 
 
-def get_user_name(id):
-    user_set = User.objects.all()
-    for user in user_set.iterator():
-        if user.id == id:
-            return user.username
-
-
 # View Offers Section
+
 
 def view_offers(request, id):
     return render(request, 'item/view_offers/offers.html', {
