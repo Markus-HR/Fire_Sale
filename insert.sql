@@ -24,8 +24,8 @@ alter sequence catalogue_postings_id_seq restart with 1;
 delete from catalogue_postings;
 insert into catalogue_postings(open, creation_date, item_id_id)
 values
-    (True, '2022-04-05', 2),
-    (False, '2022-01-15', 1),
+    (True, '2022-04-05', 1),
+    (False, '2022-01-15', 2),
     (True, '2022-01-01', 3),
     (True, '2021-03-07', 4);
 
