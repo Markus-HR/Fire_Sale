@@ -4,6 +4,7 @@ from statistics import mean
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
+from static.python.EmailManager import sendmail
 
 from item.forms.bid_form import BidCreateForm
 from item.forms.posting_form import ItemCreateForm
@@ -130,7 +131,22 @@ def view_offers(request, id):
 def accept_offer(request, bidid):
     instance = get_object_or_404(Bids, pk=bidid)
     Bids.objects.filter(pk=instance.pk).update(accept=True)
+    send_email_notification(request, instance)
     return redirect('catalogue-postings')
+
+
+def send_email_notification(request, bid_instance):
+    name = bid_instance.user.username
+    item = bid_instance.posting.item.name
+    email = bid_instance.user.email
+    subject = "Your Bid Was Accepted"
+    message = f"""Hello {name},
+An offer you made on {item} has been accepted!!
+Please check out your accepted bids to proceed to checkout.
+Thank you for using FireSale!
+
+With the bestest of regards and loads of love, The FireSale Team"""
+    sendmail(email, subject, message)
 
 
 def get_post_bids(post_id):
