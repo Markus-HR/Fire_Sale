@@ -1,0 +1,21 @@
+{%  extends 'base.html' %}
+{%  block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col mt-4">
+                <img src="{{ item.item_picture }}"  class="img-fluid rounded img-thumbnail" alt="Responsive image">
+            </div>
+            <div class="col-8 mt-4">
+                <div class="row offer-title">
+                    <h3>{{ item.name }}</h3>
+                    <h6>Offers (HIGH to LOW)</h6>
+                </div>
+                <div>
+                    {% for bid in bids %}
+                        {% include 'item/view_offers/single_offer.html' with bid=bid %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

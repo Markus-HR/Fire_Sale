@@ -1,5 +1,6 @@
 body {
     background-color: #EDE8CF;
+    margin-bottom: 5rem;
 }
 
 .navbar.navbar-light.bg-light {
@@ -64,6 +65,15 @@ footer {
 }
 
 .user-form {
+    background-color: #b8ddc4;
+    min-height: 40rem;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.accordion-form {
+    background-color: #b8ddc4;
     text-align: center;
 }
 
@@ -113,4 +123,27 @@ footer {
 
 #profile-pic {
     border-radius: 50%;
+}
+
+.offer-title {
+    background-color: #b8ddc4;
+}
+
+.item-offer {
+    background-color: #b8ddc4;
+    padding: 1em;
+    padding-bottom: 0em;
+}
+
+.offer-content {
+    color: black;
+    background-color: #faedc6;
+    border-style: solid;
+    border-color: black;
+    border-radius: 3px;
+    border-width: 1px;
+}
+
+.offer-btn {
+    margin-top: 0.5em;
 }
