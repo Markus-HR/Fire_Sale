@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="User-Profile">
-        <h1>{% user_profile.bio %}</h1>
+    <div class="row user-container">
+        {% if userProfile != None%}
+            <div class="col">
+                <img class="user-profile-pic img-thumbnail" src="{{ user.user.profile_picture }}" alt="...">
+            </div>
+        {% endif %}
+        <div class="col-6">
+            <h1>{{ user.username }}</h1>
+            <p>Users rating: {{ userRating }}</p>
+            <p>{{ user.bio }}</p>
+        </div>
+    </div>
+    <div>
+        {% include 'user/user_items.html' %}
     </div>
 {% endblock %}
