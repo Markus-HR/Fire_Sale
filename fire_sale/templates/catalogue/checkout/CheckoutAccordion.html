@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="accordion-form" method="get">
+    <form class="accordion-form" method="post">
+    {% csrf_token %}
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -53,6 +54,7 @@
             </div>
         </div>
         <br/>
+        <input class="btn-primary" type="submit" value="Cancel" name="Cancel"/>
         <input class="btn-primary" type="submit" value="Next"/>
         <br/>
     </form>
