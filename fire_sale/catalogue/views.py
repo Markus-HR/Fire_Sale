@@ -114,15 +114,13 @@ def my_postings(request):
 
 
 # Checkout section
-def checkout(request):
+def checkout(request, *args, **kwargs):
+    print(kwargs['id'])
     _remove_session_vars(request)
     if request.method == "POST":
         contact_form = CheckoutContact(data=request.POST)
         payment_form = CheckoutPayment(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-
-        if request.POST.get("Cancel") == "Cancel":
-            return redirect("catalogue-index")
         if contact_form.is_valid():
             request.session['ContactForm'] = contact_form.get_data_dict()
             request.session['PaymentForm'] = payment_form.get_data_dict()
@@ -140,15 +138,12 @@ def checkout(request):
     })
 
 
-def session_checkout(request):
+def session_checkout(request, *args, **kwargs):
     if request.method == "POST":
         contact_form = CheckoutContact(data=request.POST)
         payment_form = CheckoutPayment(data=request.POST)
         rating_form = RatingForm(data=request.POST)
         _read_session_vars(request, contact_form, payment_form, rating_form)
-
-        if request.POST.get("Cancel") == "Cancel":
-            return redirect("catalogue-index")
         if contact_form.is_valid():
             request.session['ContactForm'] = contact_form.get_data_dict()
             request.session['PaymentForm'] = payment_form.get_data_dict()
@@ -167,7 +162,7 @@ def session_checkout(request):
     })
 
 
-def checkout_review(request):
+def checkout_review(request, *args, **kwargs):
     if request.method == "POST":
         contact_form = CheckoutContact(data=request.POST)
         payment_form = CheckoutPayment(data=request.POST)
