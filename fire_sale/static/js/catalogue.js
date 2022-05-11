@@ -87,7 +87,7 @@ $(document).ready(function () {
                     return `<div>
                                 <a class="card-link" href="/item/${d.post.itemid}">
                                     <div class="card">
-                                        <img src="{{ post.item_pic }}" class="card-img-top" alt="...">
+                                        <img src="${ d.post.item_pic }" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h6 class="card-title">${d.name}</h6>
                                             <p class="card-text">$ ${d.post.user_min_bid} - $ ${d.post.user_max_bid}</p>

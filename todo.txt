@@ -1,5 +1,5 @@
 MV W	checkout
-	create post
+LM	create post
 LM W	similar items in item site
 MV X	logout
 DK X	guest view catalogue
@@ -11,5 +11,10 @@ DK	accept offer
 DK	view my bids - proceed to checkout
 MV X	Make Firesale logo redirect
 	Allow people to view others profiles (name, bio, profile pic)
+	add colored background to all sites 
+DK	Hide closed items in catalogue
 
-A	tutorial video
+	Multiple Catigories per item
+	Multiple pictures per item
+
+A	tutorial video	

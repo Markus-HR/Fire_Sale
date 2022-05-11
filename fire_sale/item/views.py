@@ -5,7 +5,10 @@ from item.forms.bid_form import BidCreateForm
 from item.models import Items
 from catalogue.models import Bids
 from catalogue.models import Postings
+from catalogue.models import Ratings
 from user_profile.models import UserProfile
+from statistics import mean
+
 
 
 # Create your views here.
@@ -80,3 +83,36 @@ def get_user_name(id):
         if user.id == id:
             return user.username
 
+
+# View Offers Section
+
+def view_offers(request, id):
+    return render(request, 'item/view_offers/offers.html', {
+        'item': get_object_or_404(Items, pk=id),
+        'bids': get_post_bids(id),
+    })
+
+
+def accept_offer(request, bidid):
+    instance = get_object_or_404(Bids, pk=bidid)
+    Bids.objects.filter(pk=instance.pk).update(accept=True)
+    return redirect('catalogue-index')
+
+
+def get_post_bids(post_id):
+    post_bids = [{
+        'p_bid_id': x.id,
+        'price': x.price,
+        'accepted': x.accept,
+        'user': x.user.username,
+        'user_rating': calculate_user_rating(x.user_id),
+    } for x in Bids.objects.filter(posting_id=post_id).order_by('-price')]
+    return post_bids
+
+
+def calculate_user_rating(u_id):
+    ratings = Ratings.objects.filter(user_id=u_id)
+    rating_score = 0
+    if len(ratings) > 0:
+        rating_score = mean([x.rating for x in ratings])
+    return str(round(rating_score))

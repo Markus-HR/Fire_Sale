@@ -5,7 +5,9 @@
                 No items found :/
             {% else %}
                 {% for post in data %}
-                    {% include 'catalogue/posting/single_post.html' with post=post%}
+                    {% if post.has_accepted_bid == False %}
+                        {% include 'catalogue/posting/single_post.html' with post=post%}
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>
