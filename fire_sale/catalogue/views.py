@@ -50,7 +50,8 @@ def get_post_item(query, request):
         'category': x.item.category.name,
         'date': x.creation_date,
         'open': x.open,
-        'has_accepted_bid': check_accepted_bid(x.id),
+        'has_accepted_bid': check_accepted_bid(x.id)[0],
+        'accepted_bid_amount': check_accepted_bid(x.id)[1][0],
         'itemid': x.item_id,
         'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
         'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
@@ -61,9 +62,9 @@ def get_post_item(query, request):
 def check_accepted_bid(post_id):
     bids = Bids.objects.filter(posting_id=post_id, accept=True)
     if bids:
-        return True
+        return [True, [x.price for x in bids]]
     else:
-        return False
+        return [False, [0]]
 
 
 def get_post_item_sort_price(rev_order, request):
@@ -80,23 +81,19 @@ def my_bids(request):
         search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter)
         post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
-
-    if 'sort_by' in request.GET:
-        sort_filter = request.GET['sort_by']
-        if sort_filter == 'accepted':
-            sort_query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True)
-            post_item = get_post_item(sort_query, request)
-        elif sort_filter == 'every':
-            sort_query = Postings.objects.filter(bids__user=request.user.id)
-            post_item = get_post_item(sort_query, request)
-        else:
-            # all or unexpected sort by filters
-            sort_query = Postings.objects.filter(bids__user=request.user.id)
-            post_item = get_post_item(sort_query, request)
-        return JsonResponse({'data': post_item})
-
     query = Postings.objects.filter(bids__user=request.user.id)
     context = {'data': get_post_item(query, request)}
+    return render(request, 'catalogue/bids/my_bids.html', context)
+
+
+def my_accepted_bids(request):
+    if 'search_filter' in request.GET:
+        search_filter = request.GET['search_filter']
+        search_query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True, item__name__icontains=search_filter)
+        post_item = get_post_item(search_query, request)
+        return JsonResponse({'data': post_item, 'accepted': 'accepted'})
+    query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True)
+    context = {'data': get_post_item(query, request), 'accepted': 'accepted'}
     return render(request, 'catalogue/bids/my_bids.html', context)
 
 

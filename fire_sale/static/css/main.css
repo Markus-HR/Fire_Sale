@@ -64,6 +64,10 @@ footer {
     /*background-color: magenta;*/
 }
 
+.bid-btn {
+    margin-left: 1.4rem;
+}
+
 .user-form {
     background-color: #b8ddc4;
     min-height: 40rem;
