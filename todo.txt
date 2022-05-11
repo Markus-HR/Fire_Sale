@@ -1,10 +1,10 @@
 MV W	checkout
-LM	create post
-LM W	similar items in item site
+LM W	create post
+LM X	similar items in item site
 MV X	logout
 DK X	guest view catalogue
 MV X	guest view navbar and login
-LM	guest view item view
+LM 	guest view item view
 LM	add date to item site
 MV X	make landing site work -- login or guestview catalogue
 DK	accept offer
@@ -13,6 +13,8 @@ MV X	Make Firesale logo redirect
 	Allow people to view others profiles (name, bio, profile pic)
 	add colored background to all sites 
 DK	Hide closed items in catalogue
+
+	check if user authorized and check if correct user for bids/postings etc
 
 	Multiple Catigories per item
 	Multiple pictures per item

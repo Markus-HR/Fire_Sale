@@ -50,8 +50,8 @@ def get_post_item(query, request):
         'open': x.open,
         'has_accepted_bid': check_accepted_bid(x.id),
         'itemid': x.item_id,
-        # 'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
-        # 'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
+        'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
+        'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
     } for x in query]
     return post_item
 
