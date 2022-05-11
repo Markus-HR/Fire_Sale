@@ -1,0 +1,13 @@
+{% block content %}
+    <div class="cat-options-box" id="catalogue-items">
+        <div class="cat-grid">
+            {% if not data %}
+                No items found :/
+            {% else %}
+                {% for post in data %}
+                    {% include 'catalogue/bids/single_bid.html' with post=post%}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+<div>
+    <a class="card-link" href="/item/{{ post.itemid }}">
+        <div class="card">
+            <img src="{{ post.item_pic }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h6 class="card-title">{{ post.name }}</h6>
+                <p class="card-text">${{ post.user_min_bid }} - ${{ post.user_max_bid }}</p>
+            </div>
+        </div>
+    </a>
+</div>
