@@ -16,17 +16,17 @@ def get_item(dictionary, key):
 # open, date, itemid, name, item_pic, category, max_bid
 # Create your views here.
 def index(request):
-    query = Postings.objects.all().order_by('-creation_date')
+    query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
-        search_query = Postings.objects.filter(item__name__icontains=search_filter)
+        search_query = Postings.objects.filter(item__name__icontains=search_filter, item__postings__open=True)
         post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
 
     if 'sort_by' in request.GET:
         sort_filter = request.GET['sort_by']
         if sort_filter == 'name':
-            sort_query = Postings.objects.all().order_by('item__name')
+            sort_query = Postings.objects.filter(item__postings__open=True).order_by('item__name')
             post_item = get_post_item(sort_query, request)
         elif sort_filter == 'high_low':
             post_item = get_post_item_sort_price(True, request)
@@ -34,7 +34,7 @@ def index(request):
             post_item = get_post_item_sort_price(False, request)
         else:
             # Recent or unexpected sort by filters
-            sort_query = Postings.objects.all().order_by('-creation_date')
+            sort_query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
             post_item = get_post_item(sort_query, request)
         return JsonResponse({'data': post_item})
 
@@ -68,7 +68,7 @@ def check_accepted_bid(post_id):
 
 
 def get_post_item_sort_price(rev_order, request):
-    query = Postings.objects.all().order_by('-creation_date')
+    query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
     post_items = get_post_item(query, request)
     sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=rev_order)
     return sorted_post_items
@@ -78,10 +78,10 @@ def get_post_item_sort_price(rev_order, request):
 def my_bids(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
-        search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter)
+        search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter, item__postings__open=True)
         post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item})
-    query = Postings.objects.filter(bids__user=request.user.id)
+    query = Postings.objects.filter(bids__user=request.user.id, item__postings__open=True)
     context = {'data': get_post_item(query, request)}
     return render(request, 'catalogue/bids/my_bids.html', context)
 

@@ -142,6 +142,7 @@ footer {
 .offer-content {
     color: black;
     background-color: #faedc6;
+    padding-left: 0.4em;
     border-style: solid;
     border-color: black;
     border-radius: 3px;
