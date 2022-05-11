@@ -1,10 +1,13 @@
+from django.contrib.redirects.models import Redirect
 from django.shortcuts import render
 from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
 from django.http import JsonResponse
+from static.python.CheckoutForms import CheckoutContact, CheckoutPayment, RatingForm
 
 
 #TODO make closed posts not show
+
 
 @register.filter(name='get_item')
 def get_item(dictionary, key):
@@ -84,3 +87,29 @@ def my_postings(request):
     return render(request, 'catalogue/posting/my_postings.html', context)
 
 
+def checkout(request):
+    if request.method == "POST":
+        contact_form = CheckoutContact(data=request.POST)
+        payment_form = CheckoutPayment(data=request.POST)
+        rating_form = RatingForm(data=request.POST)
+        if contact_form.is_valid():
+            request.session['ContactForm'] = contact_form
+            request.session['PaymentForm'] = contact_form
+            request.session['RatingForm'] = contact_form
+            return Redirect('checkout_review')
+    else:
+        contact_form = CheckoutContact()
+        payment_form = CheckoutPayment()
+        rating_form = RatingForm()
+
+    return render(request, 'catalogue/checkout/CheckoutAccordian.html', {
+        'ContactForm': contact_form,
+        'PaymentForm': payment_form,
+        'RatingForm': rating_form,
+    })
+
+
+def checkout_review(request):
+    print(request.session['ContactForm'])
+    print(request.session['PaymentForm'])
+    print(request.session['RatingForm'])

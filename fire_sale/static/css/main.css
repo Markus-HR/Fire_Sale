@@ -64,6 +64,15 @@ footer {
 }
 
 .user-form {
+    background-color: #b8ddc4;
+    min-height: 40rem;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.accordion-form {
+    background-color: #b8ddc4;
     text-align: center;
 }
 
