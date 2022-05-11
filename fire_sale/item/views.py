@@ -1,13 +1,14 @@
 from datetime import datetime
+from statistics import mean
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
-import catalogue
+
 from item.forms.bid_form import BidCreateForm
 from item.forms.posting_form import ItemCreateForm
 from item.models import Items
-from catalogue.models import Bids
+from catalogue.models import Bids, Ratings
 from catalogue.models import Postings
 
 
