@@ -1,4 +1,5 @@
 from django.forms import ModelForm, widgets
+from django import forms
 from item.models import Items
 
 
@@ -7,10 +8,10 @@ class ItemCreateForm(ModelForm):
         model = Items
         fields = [
             'name',
-            #'item_picture',
             'condition',
             'long_description',
-            'category']
+            'category'
+            ]
         widgets = {
             'name': widgets.TextInput(
                 attrs={'class': 'form-control',
@@ -27,5 +28,6 @@ class ItemCreateForm(ModelForm):
 
             'category': widgets.Select(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Select a category...'})
+                       'placeholder': 'Select a category...'}),
+
         }

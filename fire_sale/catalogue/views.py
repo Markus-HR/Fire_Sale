@@ -3,7 +3,6 @@ from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
 from django.http import JsonResponse
 from static.python.CheckoutForms import *
-from item.models import Images
 
 
 @register.filter(name='get_item')
@@ -49,7 +48,7 @@ def get_post_item(query, request):
     post_item = [{
         'post_id': x.id,
         'name': x.item.name,
-        'item_pic': Images.objects.filter(item_id=x.item_id)[0].image,
+        'item_pic': x.item.image1,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
