@@ -76,14 +76,23 @@ def get_post_item(item_id, post_id):
     related_posts = get_related_posts(item.category_id, post_id)
     post_item = [{
         'name': x.item.name,
-        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
+        'item_pic': x.item.image1,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
         'open': x.open,
-        'itemid': x.item_id
+        'itemid': x.item_id,
+        'has_accepted_bid': check_accepted_bid(x.id)[0],
     } for x in related_posts]
     return post_item
+
+
+def check_accepted_bid(post_id):
+    bids = Bids.objects.filter(posting_id=post_id, accept=True)
+    if bids:
+        return [True, [x.price for x in bids]]
+    else:
+        return [False, [0]]
 
 
 def get_max_bid(bid_lis):
