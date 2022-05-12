@@ -1,14 +1,14 @@
 from django import forms
-
 from catalogue.models import Ratings
 from checkout.models import Contacts, Payments, Orders, Country
-
+from django.db.transaction import commit
 from checkout.models import Contacts
 
 
 class CheckoutContact(forms.Form):
     first_name = forms.CharField(
         label='First name',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'First name',
                    'style': 'width: 300px;'
@@ -18,6 +18,7 @@ class CheckoutContact(forms.Form):
 
     last_name = forms.CharField(
         label='Last name',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Last name',
                    'style': 'width: 300px;'
@@ -27,6 +28,7 @@ class CheckoutContact(forms.Form):
 
     street_name = forms.CharField(
         label='Street name',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Street name',
                    'style': 'width: 300px;'
@@ -36,6 +38,7 @@ class CheckoutContact(forms.Form):
 
     street_no = forms.CharField(
         label='Street Number',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Street Number',
                    'style': 'width: 300px;'
@@ -46,6 +49,7 @@ class CheckoutContact(forms.Form):
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
         label='Country',
+        required=False,
         widget=forms.Select(
             attrs={'placeholder': 'Country',
                    'style': 'width: 300px;'
@@ -55,6 +59,7 @@ class CheckoutContact(forms.Form):
 
     postal_code = forms.CharField(
         label='Postal code',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Postal code',
                    'style': 'width: 300px;'
@@ -83,6 +88,7 @@ class CheckoutContact(forms.Form):
 class CheckoutPayment(forms.Form):
     name = forms.CharField(
         label='Postal code',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Postal code',
                    'style': 'width: 300px;'
@@ -92,6 +98,7 @@ class CheckoutPayment(forms.Form):
 
     card_no = forms.CharField(
         label='Card number',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Card number',
                    'style': 'width: 300px;'
@@ -101,6 +108,7 @@ class CheckoutPayment(forms.Form):
 
     expiration_date = forms.DateField(
         label='Expiration date',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Expiration date',
                    'style': 'width: 300px;'
@@ -110,6 +118,7 @@ class CheckoutPayment(forms.Form):
 
     cvc = forms.CharField(
         label='cvc',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'cvc',
                    'style': 'width: 300px;'
@@ -191,9 +200,11 @@ class ContactReviewForm(forms.ModelForm):
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    country = forms.CharField(
+    country = forms.ModelChoiceField(
+        queryset=Country.objects.all(),
         label='Country',
-        widget=forms.TextInput(
+        required=False,
+        widget=forms.Select(
             attrs={'placeholder': 'Country',
                    'style': 'width: 300px;'
                             'display: block;'
@@ -220,6 +231,13 @@ class ContactReviewForm(forms.ModelForm):
     def disable_fields(self):
         for field in self.fields:
             self.fields[field].widget.attrs['readonly'] = True
+
+    def save(self):
+        contact = super().save(commit=False)
+        contact.country = Country.objects.get(id=self.cleaned_data['country'])
+        if commit:
+            contact.save()
+        return contact
 
 
 class PaymentReviewForm(forms.ModelForm):

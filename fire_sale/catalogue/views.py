@@ -173,7 +173,7 @@ def checkout_review(request, *args, **kwargs):
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
         if request.POST.get("Back") == "Back":
             return redirect('session_checkout', id=kwargs['id'])
-        if contact_form.is_valid():
+        if contact_form.is_valid() and payment_form.is_valid():
             _commit_data(request, contact_form, payment_form, rating_form)
             return redirect('catalogue-index')
     else:
