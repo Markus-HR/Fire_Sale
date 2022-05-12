@@ -368,8 +368,6 @@ def create_payment_model(payment_dict):
     return payment
 
 
-def create_rating_model(rating_dict, request, posting_id):
-    rating = Ratings(user_id=request.user,
-                     posting=posting_id,
-                     rating=rating_dict['rating'])
+def create_rating_model(rating_dict):
+    rating = Ratings(rating=rating_dict['rating'])
     return rating
