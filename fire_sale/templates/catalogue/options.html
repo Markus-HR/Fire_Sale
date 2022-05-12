@@ -4,12 +4,18 @@
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-box">
             <button class="btn btn-outline-success" type="button" id="search-btn">Search</button>
         </form>
-        <a href="{% url 'create-posting' %}" class="btn btn-primary btn-lg btn-clock">Create Posting</a>
-        <a href="{% url 'catalogue-index' %}" class="btn btn-primary btn-lg btn-clock">View All Postings</a>
-        <a href="{% url 'catalogue-bids' %}" class="btn btn-primary btn-lg btn-clock">View My Bids</a>
-        <a href="{% url 'catalogue-postings' %}" class="btn btn-primary btn-lg btn-clock">View My Postings</a>
-
-
-
+        {% if user.is_authenticated %}
+            <a href="#" class="btn btn-primary btn-lg btn-clock">Create Posting</a>
+            <a href="{% url 'catalogue-index' %}" class="btn btn-primary btn-lg btn-clock">View All Postings</a>
+            <a href="{% url 'catalogue-postings' %}" class="btn btn-primary btn-lg btn-clock">View My Postings</a>
+            <div class="row">
+                <div class="col-sm-5 bid-btn">
+                    <a href="{% url 'catalogue-bids' %}" class="btn btn-primary btn-lg btn-clock">View My Bids</a>
+                </div>
+                <div class="col-sm-5 bid-btn">
+                    <a href="{% url 'catalogue-accepted-bids' %}" class="btn btn-primary btn-lg btn-clock">Accepted Bids</a>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
