@@ -16,10 +16,6 @@ class ItemCreateForm(ModelForm):
                 attrs={'class': 'form-control',
                        'placeholder': 'Item name...'}),
 
-            #'item_picture': widgets.TextInput(
-            #    attrs={'class': 'form-control',
-            #           'placeholder': 'Picture link...'}),
-
             'condition': widgets.TextInput(
                 attrs={'class': 'form-control',
                        'placeholder': 'Condition of item...'}),
