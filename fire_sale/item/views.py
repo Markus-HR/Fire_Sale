@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from item.forms.bid_form import BidCreateForm
 from item.forms.posting_form import ItemCreateForm
-from item.models import Items
+from item.models import Items, Images
 from catalogue.models import Bids, Ratings
 from catalogue.models import Postings
 
@@ -35,6 +35,8 @@ def index(request, id):
     return render(request, 'item/index.html', {
         'form': form,
         'item': get_object_or_404(Items, pk=id),
+        'main_image': Images.objects.filter(item_id=id)[0],
+        'images': get_images_lis(id),
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
@@ -59,12 +61,21 @@ def create_posting(request):
     })
 
 
+def get_images_lis(id):
+    images_lis = []
+    img_set = Images.objects.all()
+    for image in img_set.iterator():
+        if image.item_id == id:
+            images_lis.append(image)
+    return images_lis
+
+
 def get_post_item(item_id, post_id):
     item = get_object_or_404(Items, pk=item_id)
     related_posts = get_related_posts(item.category_id, post_id)
     post_item = [{
         'name': x.item.name,
-        'item_pic': x.item.item_picture,
+        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
