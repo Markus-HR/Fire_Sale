@@ -8,8 +8,8 @@ $(document).ready(function () {
             success: function (resp) {
                 var newHtml = resp.data.map(d => {
                     return `<div>
-                                <a href="/item/${d.itemid}">
-                                    <div class="card" style="width: 12rem;">
+                                <a class="card-link" href="/item/${d.itemid}">
+                                    <div class="card">
                                         <img src="${d.item_pic}" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h6 class="card-title">${d.name}</h6>
@@ -20,7 +20,7 @@ $(document).ready(function () {
                             </div>`
                 });
                 $('.cat-grid').html(newHtml.join(''));
-                $('#search-box').val('');
+                // $('#search-box').val('');
             },
             error: function (xhr, status, error) {
                 //TODO: Show Toaster / other error message

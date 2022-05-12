@@ -4,6 +4,7 @@ from statistics import mean
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
+from static.python.EmailManager import sendmail
 
 from item.forms.bid_form import BidCreateForm
 from item.forms.posting_form import ItemCreateForm
@@ -123,16 +124,49 @@ def get_post_id(id):
 
 
 def view_offers(request, id):
+    post_id = get_post_id(id)
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
-        'bids': get_post_bids(id),
+        'bids': get_post_bids(post_id),
     })
 
 
 def accept_offer(request, bidid):
     instance = get_object_or_404(Bids, pk=bidid)
     Bids.objects.filter(pk=instance.pk).update(accept=True)
-    return redirect('catalogue-index')
+    send_accepted_email_notification(instance)
+    send_declined_email_notifications(instance)
+    return redirect('catalogue-postings')
+
+
+def send_accepted_email_notification(bid_instance):
+    name = bid_instance.user.username
+    item = bid_instance.posting.item.name
+    email = bid_instance.user.email
+    subject = "Your Bid Was Accepted"
+    message = f"""Hello {name},
+An offer you made on {item} has been accepted!!
+Please check out your accepted bids to proceed to checkout.
+Thank you for using FireSale!
+
+With the bestest of regards and loads of love, The FireSale Team"""
+    sendmail(email, subject, message)
+
+
+def send_declined_email_notifications(bid_instance):
+    post = bid_instance.posting
+    email_list = [x.user.email for x in Bids.objects.filter(posting_id=post.id)]
+    email = ', '.join(map(str, email_list))
+    item = bid_instance.posting.item.name
+    subject = "Your Bid Was Declined"
+    message = f"""Hello,
+We regret to inform you that an offer you made on {item} has been declined!
+Feel free to check out our market for other interesting items to buy!
+Thank you for using FireSale!
+
+With the bestest of regards and loads of love, The FireSale Team"""
+    sendmail(email, subject, message)
+
 
 
 def get_post_bids(post_id):
