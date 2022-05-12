@@ -16,6 +16,9 @@ from catalogue.models import Postings
 # Create your views here.
 def index(request, id):
     post_id = get_post_id(id)
+    post = get_object_or_404(Postings, pk=post_id)
+    if not post.open:
+        return redirect('catalogue-index')
     #user = get_user()
     if request.method == 'POST':
         form = BidCreateForm(data=request.POST)
