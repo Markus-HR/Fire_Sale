@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
 from django.http import JsonResponse
+
+from item.models import Images
 from static.python.CheckoutForms import CheckoutContact, CheckoutPayment, RatingForm
 
 
@@ -45,7 +47,7 @@ def index(request):
 def get_post_item(query, request):
     post_item = [{
         'name': x.item.name,
-        'item_pic': x.item.item_picture,
+        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
