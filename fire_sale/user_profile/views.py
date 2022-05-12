@@ -10,7 +10,7 @@ from django.contrib.auth import logout as LogoutUser
 from user_profile.models import UserProfile
 
 
-def register(request):
+def register(request, *args, **kwargs):
     if request.method == 'POST':
         form = RegisterForm(data=request.POST)
         if form.is_valid():
@@ -24,23 +24,12 @@ def register(request):
     })
 
 
-def logout(request):
+def logout(request, *args, **kwargs):
     LogoutUser(request)
     return redirect('login')
 
 
-# def view_profile(request):
-#     if UserProfile.objects.check(user_id=request.user.id):
-#         user_profiles = UserProfile.objects.get(id=request.user.id)
-#     else:
-#         return edit_profile(request)
-#
-#     return render(request, 'user/view_profile.html', {
-#         'user_profile': user_profiles
-#     })
-
-
-def edit_profile(request):
+def edit_profile(request, *args, **kwargs):
     if UserProfile.objects.filter(user_id=request.user.id).exists():
         instance = UserProfile.objects.filter(user_id=request.user.id)[0]
         if request.method == 'POST':

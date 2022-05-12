@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
 from django.http import JsonResponse
-
+from static.python.CheckoutForms import *
 from item.models import Images
 from static.python.CheckoutForms import CheckoutContact, CheckoutPayment, RatingForm
 
@@ -70,8 +70,10 @@ def get_post_item(query, request):
         'has_accepted_bid': check_accepted_bid(x.id)[0],
         'accepted_bid_amount': check_accepted_bid(x.id)[1][0],
         'itemid': x.item_id,
-        'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
-        'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)], default=0),
+        'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)],
+                            default=0),
+        'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)],
+                            default=0),
     } for x in query]
     return post_item
 
@@ -128,20 +130,17 @@ def my_postings(request):
 
 
 # Checkout section
-def checkout(request):
+def checkout(request, *args, **kwargs):
     _remove_session_vars(request)
     if request.method == "POST":
         contact_form = CheckoutContact(data=request.POST)
         payment_form = CheckoutPayment(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-
-        if request.POST.get("Cancel") == "Cancel":
-            return redirect("catalogue-index")
         if contact_form.is_valid():
             request.session['ContactForm'] = contact_form.get_data_dict()
             request.session['PaymentForm'] = payment_form.get_data_dict()
             request.session['RatingForm'] = rating_form.get_data_dict()
-            return redirect('checkout_review')
+            return redirect('checkout_review', id=kwargs['id'])
     else:
         contact_form = CheckoutContact()
         payment_form = CheckoutPayment()
@@ -154,20 +153,16 @@ def checkout(request):
     })
 
 
-def session_checkout(request):
+def session_checkout(request, *args, **kwargs):
     if request.method == "POST":
         contact_form = CheckoutContact(data=request.POST)
         payment_form = CheckoutPayment(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-        _read_session_vars(request, contact_form, payment_form, rating_form)
-
-        if request.POST.get("Cancel") == "Cancel":
-            return redirect("catalogue-index")
         if contact_form.is_valid():
             request.session['ContactForm'] = contact_form.get_data_dict()
             request.session['PaymentForm'] = payment_form.get_data_dict()
             request.session['RatingForm'] = rating_form.get_data_dict()
-            return redirect('checkout_review')
+            return redirect('checkout_review', id=kwargs['id'])
     else:
         contact_form = CheckoutContact()
         payment_form = CheckoutPayment()
@@ -181,20 +176,26 @@ def session_checkout(request):
     })
 
 
-def checkout_review(request):
+def checkout_review(request, *args, **kwargs):
     if request.method == "POST":
-        contact_form = CheckoutContact(data=request.POST)
-        payment_form = CheckoutPayment(data=request.POST)
-        rating_form = RatingForm(data=request.POST)
+        contact_form = ContactReviewForm(data=request.POST)
+        payment_form = PaymentReviewForm(data=request.POST)
+        rating_form = RatingReviewForm(data=request.POST)
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
         if request.POST.get("Back") == "Back":
-            return redirect('session_checkout')
-        if contact_form.is_valid() and rating_form.is_valid():
+            return redirect('session_checkout', id=kwargs['id'])
+        if contact_form.is_valid() and payment_form.is_valid():
+            _commit_data(request, contact_form, payment_form, rating_form)
             return redirect('catalogue-index')
     else:
-        contact_form = CheckoutContact()
-        payment_form = CheckoutPayment()
-        rating_form = RatingForm()
+        contact_form = ContactReviewForm(
+            instance=create_contact_model(request.session['ContactForm']))
+        payment_form = PaymentReviewForm(
+            instance=create_payment_model(request.session['PaymentForm']))
+        rating_form = RatingReviewForm(
+            instance=create_rating_model(request.session['RatingForm'],
+                                         request,
+                                         Postings.objects.get(id=kwargs['id'])))
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
 
     return render(request, 'catalogue/checkout/checkout_review.html', {
@@ -223,9 +224,12 @@ def _remove_session_vars(request):
 
 
 def _init_read_only_forms(request, contact_form, payment_form, rating_form):
-    contact_form.read_from_dict(request.session['ContactForm'])
-    payment_form.read_from_dict(request.session['PaymentForm'])
-    rating_form.read_from_dict(request.session['RatingForm'])
     contact_form.disable_fields()
     payment_form.disable_fields()
     rating_form.disable_fields()
+
+
+def _commit_data(request, contact_form, payment_form, rating_form):
+    contact_form.save()
+    payment_form.save()
+    rating_form.save()

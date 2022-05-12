@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'catalogue.apps.CatalogueConfig',
     'item.apps.ItemConfig',
     'user_profile.apps.UserProfileConfig',
+    'checkout.apps.CheckoutConfig',
 
 
 ]
