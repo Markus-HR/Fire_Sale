@@ -17,20 +17,35 @@ def index(request):
     context = {'data': get_post_item(query, request)}
     using_filter = False
     if 'search_filter' in request.GET:
-        search_input = request.GET['search_filter']
-        new_context = [x for x in context['data'] if x['name'] == search_input]
-        context = None
-        context = {'data': new_context}
+        search_input = request.GET['search_filter'].lower()
+        data_list = context['data']
+        new_data = [x for x in data_list if search_input in x['name'].lower()]
+        # list(filter(lambda item: item['name'] == search_input, data_list))
+        # next((i for i, x in enumerate(context['data']) if x['name'] == search_input), [])
+        # [x for x in context['data'] if x['name'] == search_input]
+        context = {'data': new_data}
+        using_filter = True
+
+    if 'sort_by' in request.GET:
+        sort_input = request.GET['sort_by'].lower()
+        data_list = context['data']
+        if sort_input == 'name':
+            new_data = sorted(data_list, key=lambda k: k['name'])
+        elif sort_input == 'high_low':
+            new_data = sorted(data_list, key=lambda k: k['max_bid'], reverse=True)
+        elif sort_input == 'low_high':
+            new_data = sorted(data_list, key=lambda k: k['max_bid'])
+        else:
+            new_data = sorted(data_list, key=lambda k: k['date'], reverse=True)
+        context = {'data': new_data}
+        using_filter = True
 
     if using_filter:
         return JsonResponse(context)
     else:
         return render(request, 'catalogue/index.html', context)
 
-#    sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=rev_order)
 
-
-# open, date, itemid, name, item_pic, category, max_bid
 # Create your views here.
 def old_index(request):
     query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
@@ -62,7 +77,7 @@ def old_index(request):
 def get_post_item(query, request):
     post_item = [{
         'name': x.item.name,
-        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
+        'item_pic': Images.objects.filter(item_id=x.item_id)[0].image,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
