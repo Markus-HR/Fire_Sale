@@ -172,6 +172,7 @@ def session_checkout(request, *args, **kwargs):
             instance=create_payment_model(request.session['PaymentForm']))
         payment_form.not_required_fields()
         rating_form = RatingForm()
+        rating_form.read_from_dict(request.session['RatingForm'])
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
@@ -236,4 +237,4 @@ def _init_read_only_forms(request, contact_form, payment_form, rating_form):
 def _commit_data(request, contact_form, payment_form, rating_form):
     contact = contact_form.save()
     payment = payment_form.save()
-    # rating_form.save()
+    rating_form.save()
