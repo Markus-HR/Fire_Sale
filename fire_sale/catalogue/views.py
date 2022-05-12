@@ -5,17 +5,32 @@ from django.http import JsonResponse
 from static.python.CheckoutForms import CheckoutContact, CheckoutPayment, RatingForm
 
 
-# TODO make closed posts not show
-
-
 @register.filter(name='get_item')
 def get_item(dictionary, key):
     return dictionary.get(key)
 
 
+def index(request):
+    query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
+    context = {'data': get_post_item(query, request)}
+    using_filter = False
+    if 'search_filter' in request.GET:
+        search_input = request.GET['search_filter']
+        new_context = [x for x in context['data'] if x['name'] == search_input]
+        context = None
+        context = {'data': new_context}
+
+    if using_filter:
+        return JsonResponse(context)
+    else:
+        return render(request, 'catalogue/index.html', context)
+
+#    sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=rev_order)
+
+
 # open, date, itemid, name, item_pic, category, max_bid
 # Create your views here.
-def index(request):
+def old_index(request):
     query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
