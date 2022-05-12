@@ -16,52 +16,40 @@ def index(request):
     context = {'data': get_post_item(query, request)}
     using_filter = False
     if 'search_filter' in request.GET:
-        search_input = request.GET['search_filter']
-        new_context = [x for x in context['data'] if x['name'] == search_input]
-        context = None
-        context = {'data': new_context}
+        search_input = request.GET['search_filter'].lower()
+        data_list = context['data']
+        new_data = [x for x in data_list if search_input in x['name'].lower()]
+        # list(filter(lambda item: item['name'] == search_input, data_list))
+        # next((i for i, x in enumerate(context['data']) if x['name'] == search_input), [])
+        # [x for x in context['data'] if x['name'] == search_input]
+        context = {'data': new_data}
+        using_filter = True
+
+    if 'sort_by' in request.GET:
+        sort_input = request.GET['sort_by'].lower()
+        data_list = context['data']
+        if sort_input == 'name':
+            new_data = sorted(data_list, key=lambda k: k['name'])
+        elif sort_input == 'high_low':
+            new_data = sorted(data_list, key=lambda k: k['max_bid'], reverse=True)
+        elif sort_input == 'low_high':
+            new_data = sorted(data_list, key=lambda k: k['max_bid'])
+        else:
+            new_data = sorted(data_list, key=lambda k: k['date'], reverse=True)
+        context = {'data': new_data}
+        using_filter = True
 
     if using_filter:
         return JsonResponse(context)
     else:
         return render(request, 'catalogue/index.html', context)
 
-#    sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=rev_order)
-
-
-# open, date, itemid, name, item_pic, category, max_bid
-# Create your views here.
-def old_index(request):
-    query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
-    if 'search_filter' in request.GET:
-        search_filter = request.GET['search_filter']
-        search_query = Postings.objects.filter(item__name__icontains=search_filter, item__postings__open=True)
-        post_item = get_post_item(search_query, request)
-        return JsonResponse({'data': post_item})
-
-    if 'sort_by' in request.GET:
-        sort_filter = request.GET['sort_by']
-        if sort_filter == 'name':
-            sort_query = Postings.objects.filter(item__postings__open=True).order_by('item__name')
-            post_item = get_post_item(sort_query, request)
-        elif sort_filter == 'high_low':
-            post_item = get_post_item_sort_price(True, request)
-        elif sort_filter == 'low_high':
-            post_item = get_post_item_sort_price(False, request)
-        else:
-            # Recent or unexpected sort by filters
-            sort_query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
-            post_item = get_post_item(sort_query, request)
-        return JsonResponse({'data': post_item})
-
-    context = {'data': get_post_item(query, request)}
-    return render(request, 'catalogue/index.html', context)
-
 
 def get_post_item(query, request):
     post_item = [{
+        'post_id': x.id,
         'name': x.item.name,
-        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
+        'item_pic': Images.objects.filter(item_id=x.item_id)[0].image,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
@@ -83,13 +71,6 @@ def check_accepted_bid(post_id):
         return [True, [x.price for x in bids]]
     else:
         return [False, [0]]
-
-
-def get_post_item_sort_price(rev_order, request):
-    query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
-    post_items = get_post_item(query, request)
-    sorted_post_items = sorted(post_items, key=lambda k: k['max_bid'], reverse=rev_order)
-    return sorted_post_items
 
 
 # My bids section
