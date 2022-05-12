@@ -4,7 +4,6 @@ from django.template.defaulttags import register
 from django.http import JsonResponse
 from static.python.CheckoutForms import *
 from item.models import Images
-from static.python.CheckoutForms import CheckoutContact, CheckoutPayment, RatingForm
 
 
 @register.filter(name='get_item')
@@ -114,17 +113,19 @@ def my_postings(request):
 def checkout(request, *args, **kwargs):
     _remove_session_vars(request)
     if request.method == "POST":
-        contact_form = CheckoutContact(data=request.POST)
-        payment_form = CheckoutPayment(data=request.POST)
+        contact_form = ContactReviewForm(data=request.POST)
+        payment_form = PaymentReviewForm(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-        if contact_form.is_valid():
-            request.session['ContactForm'] = contact_form.get_data_dict()
-            request.session['PaymentForm'] = payment_form.get_data_dict()
-            request.session['RatingForm'] = rating_form.get_data_dict()
-            return redirect('checkout_review', id=kwargs['id'])
+        # if contact_form.is_valid():
+        request.session['ContactForm'] = contact_form.get_data_dict()
+        request.session['PaymentForm'] = payment_form.get_data_dict()
+        request.session['RatingForm'] = rating_form.get_data_dict()
+        return redirect('checkout_review', id=kwargs['id'])
     else:
-        contact_form = CheckoutContact()
-        payment_form = CheckoutPayment()
+        contact_form = ContactReviewForm()
+        contact_form.not_required_fields()
+        payment_form = PaymentReviewForm()
+        payment_form.not_required_fields()
         rating_form = RatingForm()
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
@@ -136,19 +137,22 @@ def checkout(request, *args, **kwargs):
 
 def session_checkout(request, *args, **kwargs):
     if request.method == "POST":
-        contact_form = CheckoutContact(data=request.POST)
-        payment_form = CheckoutPayment(data=request.POST)
+        contact_form = ContactReviewForm(data=request.POST)
+        payment_form = PaymentReviewForm(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-        if contact_form.is_valid():
-            request.session['ContactForm'] = contact_form.get_data_dict()
-            request.session['PaymentForm'] = payment_form.get_data_dict()
-            request.session['RatingForm'] = rating_form.get_data_dict()
-            return redirect('checkout_review', id=kwargs['id'])
+        # if contact_form.is_valid():
+        request.session['ContactForm'] = contact_form.get_data_dict()
+        request.session['PaymentForm'] = payment_form.get_data_dict()
+        request.session['RatingForm'] = rating_form.get_data_dict()
+        return redirect('checkout_review', id=kwargs['id'])
     else:
-        contact_form = CheckoutContact()
-        payment_form = CheckoutPayment()
+        contact_form = ContactReviewForm(
+            instance=create_contact_model(request.session['ContactForm']))
+        contact_form.not_required_fields()
+        payment_form = PaymentReviewForm(
+            instance=create_payment_model(request.session['PaymentForm']))
+        payment_form.not_required_fields()
         rating_form = RatingForm()
-        _read_session_vars(request, contact_form, payment_form, rating_form)
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
@@ -211,6 +215,6 @@ def _init_read_only_forms(request, contact_form, payment_form, rating_form):
 
 
 def _commit_data(request, contact_form, payment_form, rating_form):
-    contact_form.save()
-    payment_form.save()
-    rating_form.save()
+    contact = contact_form.save()
+    payment = payment_form.save()
+    # rating_form.save()
