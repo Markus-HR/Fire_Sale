@@ -1,21 +1,17 @@
 MV W	checkout
-LM X	create post
-LM X	similar items in item site
-MV X	logout
-DK X	guest view catalogue
-MV X	guest view navbar and login
-LM W	guest view item view
+MV W	view my bids - proceed to checkout
+
 LM W	add date to item site
+LM W	Allow people to view others profiles (name, bio, profile pic)
+LM W	Multiple pictures per item
+
 DK X	accept offer
-DKMV W	view my bids - proceed to checkout
-LM	Allow people to view others profiles (name, bio, profile pic)
-A	add colored background to all sites 
-DK	Hide closed items in catalogue
-	Notification system
+DK X	view my bids
+DK W	Hide closed items in catalogue
+DK X	Notification system
 
 	check if user authorized and check if correct user for bids/postings etc
 
-	Multiple Catigories per item
-	Multiple pictures per item
+	Multiple Catagories per item
 
 A	tutorial video	

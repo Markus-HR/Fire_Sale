@@ -2,8 +2,21 @@ $(document).ready(function () {
     $('#search-btn').on('click', function (e) {
         e.preventDefault();
         var searchText = $('#search-box').val();
+
+        var checked = $("input[name='cat-filter']:checked").val();
+        var filter = 'recent'
+        if (checked === '1') {
+            filter = 'recent'
+        } else if (checked === '2') {
+            filter = 'name'
+        } else if (checked === '3') {
+            filter = 'high_low'
+        } else if (checked === '4') {
+            filter = 'low_high'
+        }
+
         $.ajax({
-            url: '?search_filter=' + searchText,
+            url: '?search_filter=' + searchText + '&sort_by=' + filter,
             type: 'GET',
             success: function (resp) {
                 var newHtml = resp.data.map(d => {
@@ -20,7 +33,7 @@ $(document).ready(function () {
                             </div>`
                 });
                 $('.cat-grid').html(newHtml.join(''));
-                // $('#search-box').val('');
+                $('#search-box').val('');
             },
             error: function (xhr, status, error) {
                 //TODO: Show Toaster / other error message
