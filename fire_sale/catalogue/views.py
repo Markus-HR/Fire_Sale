@@ -111,7 +111,8 @@ def remove_dupe_post_ids(context):
 def my_accepted_bids(request):
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
-        search_query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True, item__name__icontains=search_filter)
+        search_query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True, item__postings__open=True,
+                                               item__name__icontains=search_filter)
         post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item, 'accepted': 'accepted'})
     query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True)
