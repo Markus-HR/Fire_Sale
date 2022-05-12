@@ -1,0 +1,34 @@
+<div class="col mt-4" id="item-user-bid">
+    <p>Your bid: ${{ user_bid }}</p>
+</div>
+<div class="col mt-4 "  id="item-collapsable-buttons">
+    <p>
+        <a class="btn btn-primary item-button" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Create bid
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body" id="bid-form">
+            <form class="form form-horizontal text-center" action="{% url 'item-index' id=item.id %}"method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Submit" class="btn btn-primary pull-right" role="button"/>
+                <input value="Cancel" class="btn btn-primary pull-right" data-bs-toggle="collapse" href="#collapseExample" role="button" />
+            </form>
+        </div>
+    </div>
+    <p>
+        <a class="btn btn-primary item-button" data-bs-toggle="collapse" href="#prevBids" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Bidding history
+        </a>
+    </p>
+    <div class="collapse" id="prevBids">
+        <div class="bidding-history" id="bidding-history">
+            <h6>Previous bids:</h6>
+            </br>
+            {% for bid in bids %}
+                <p>${{ bid.price }} from {{ bid.user.username }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
