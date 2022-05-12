@@ -14,14 +14,12 @@ def get_item(dictionary, key):
 def index(request):
     query = Postings.objects.filter(item__postings__open=True).order_by('-creation_date')
     context = {'data': get_post_item(query, request)}
+    context = remove_posts_accepted_bids(context)
     using_filter = False
     if 'search_filter' in request.GET:
         search_input = request.GET['search_filter'].lower()
         data_list = context['data']
         new_data = [x for x in data_list if search_input in x['name'].lower()]
-        # list(filter(lambda item: item['name'] == search_input, data_list))
-        # next((i for i, x in enumerate(context['data']) if x['name'] == search_input), [])
-        # [x for x in context['data'] if x['name'] == search_input]
         context = {'data': new_data}
         using_filter = True
 
@@ -45,6 +43,14 @@ def index(request):
         return render(request, 'catalogue/index.html', context)
 
 
+def remove_posts_accepted_bids(context):
+    new_list = []
+    for d in context['data']:
+        if not d['has_accepted_bid']:
+            new_list.append(d)
+    return {'data': new_list}
+
+
 def get_post_item(query, request):
     post_item = [{
         'post_id': x.id,
@@ -59,8 +65,8 @@ def get_post_item(query, request):
         'itemid': x.item_id,
         'user_max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)],
                             default=0),
-        'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)],
-                            default=0),
+        # 'user_min_bid': min([y.price for y in Bids.objects.filter(posting_id=x.id, user_id=request.user.id)],
+        #                     default=0),
     } for x in query]
     return post_item
 
@@ -75,14 +81,31 @@ def check_accepted_bid(post_id):
 
 # My bids section
 def my_bids(request):
-    if 'search_filter' in request.GET:
-        search_filter = request.GET['search_filter']
-        search_query = Postings.objects.filter(bids__user=request.user.id, item__name__icontains=search_filter, item__postings__open=True)
-        post_item = get_post_item(search_query, request)
-        return JsonResponse({'data': post_item})
     query = Postings.objects.filter(bids__user=request.user.id, item__postings__open=True)
     context = {'data': get_post_item(query, request)}
-    return render(request, 'catalogue/bids/my_bids.html', context)
+    context = remove_dupe_post_ids(context)
+    using_filter = False
+    if 'search_filter' in request.GET:
+        search_input = request.GET['search_filter']
+        data_list = context['data']
+        new_data = [x for x in data_list if search_input in x['name'].lower()]
+        context = {'data': new_data}
+        using_filter = True
+
+    if using_filter:
+        return JsonResponse(context)
+    else:
+        return render(request, 'catalogue/bids/my_bids.html', context)
+
+
+def remove_dupe_post_ids(context):
+    done = set()
+    new_list = []
+    for d in context['data']:
+        if d['post_id'] not in done:
+            done.add(d['post_id'])
+            new_list.append(d)
+    return {'data': new_list}
 
 
 def my_accepted_bids(request):
