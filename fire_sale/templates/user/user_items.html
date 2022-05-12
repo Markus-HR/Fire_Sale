@@ -1,0 +1,15 @@
+{% block content %}
+    <br>
+    <h5>Postings from this user:</h5>
+    <div class="cat-options-box" id="related-items" >
+        <div class="cat-grid-related" >
+            {% if not data %}
+                No postings found :/
+            {% else %}
+                {% for post in data %}
+                    {% include 'item/single_related_post.html' with post=post%}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

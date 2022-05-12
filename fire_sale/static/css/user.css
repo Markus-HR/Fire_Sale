@@ -1,0 +1,13 @@
+.user-profile-pic {
+    border-radius: 50%;
+    height: 14rem;
+    width: 14rem;
+    object-fit: cover;
+}
+
+.user-container {
+    background-color: #b8ddc4;
+    margin-top: 1rem;
+    padding: 0.5rem 0.5rem 1rem;
+    width:50%;
+}

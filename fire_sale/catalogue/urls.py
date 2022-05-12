@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name="catalogue-index"),
     path('bids', views.my_bids, name="catalogue-bids"),
+    path('bids/accepted', views.my_accepted_bids, name="catalogue-accepted-bids"),
     path('postings', views.my_postings, name="catalogue-postings"),
     path('<int:id>/checkout', views.checkout, name='checkout'),
     path('<int:id>/session_checkout', views.session_checkout, name='session_checkout'),

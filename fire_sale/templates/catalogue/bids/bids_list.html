@@ -4,9 +4,15 @@
             {% if not data %}
                 No items found :/
             {% else %}
-                {% for post in data %}
-                    {% include 'catalogue/bids/single_bid.html' with post=post%}
-                {% endfor %}
+                {% if accepted %}
+                    {% for post in data %}
+                        {% include 'catalogue/bids/single_accepted_bid.html' with post=post%}
+                    {% endfor %}
+                {% else %}
+                    {% for post in data %}
+                        {% include 'catalogue/bids/single_bid.html' with post=post%}
+                    {% endfor %}
+                {% endif %}
             {% endif %}
         </div>
     </div>

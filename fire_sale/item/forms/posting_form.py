@@ -7,7 +7,7 @@ class ItemCreateForm(ModelForm):
         model = Items
         fields = [
             'name',
-            'item_picture',
+            #'item_picture',
             'condition',
             'long_description',
             'category']
@@ -16,9 +16,9 @@ class ItemCreateForm(ModelForm):
                 attrs={'class': 'form-control',
                        'placeholder': 'Item name...'}),
 
-            'item_picture': widgets.TextInput(
-                attrs={'class': 'form-control',
-                       'placeholder': 'Picture link...'}),
+            #'item_picture': widgets.TextInput(
+            #    attrs={'class': 'form-control',
+            #           'placeholder': 'Picture link...'}),
 
             'condition': widgets.TextInput(
                 attrs={'class': 'form-control',
