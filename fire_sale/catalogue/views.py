@@ -167,7 +167,7 @@ def session_checkout(request, *args, **kwargs):
         contact_form = CheckoutContact()
         payment_form = CheckoutPayment()
         rating_form = RatingForm()
-        _read_session_vars(request, contact_form, payment_form, rating_form)
+        #_read_session_vars(request, contact_form, payment_form, rating_form)
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
@@ -230,6 +230,6 @@ def _init_read_only_forms(request, contact_form, payment_form, rating_form):
 
 
 def _commit_data(request, contact_form, payment_form, rating_form):
-    contact_form.save()
-    payment_form.save()
-    rating_form.save()
+    contact = contact_form.save()
+    payment = payment_form.save()
+    # rating_form.save()

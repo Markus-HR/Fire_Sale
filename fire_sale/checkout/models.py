@@ -1,5 +1,7 @@
 from django.db import models
 from catalogue.models import Postings
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 
 class Country(models.Model):
@@ -20,7 +22,7 @@ class Contacts(models.Model):
 
 class Payments(models.Model):
     name = models.CharField(max_length=100)
-    card_no = models.IntegerField()
+    card_no = models.BigIntegerField()
     expiration_date = models.DateField()
     cvc = models.CharField(max_length=3)
 
