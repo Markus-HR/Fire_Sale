@@ -95,6 +95,16 @@ footer {
     border-color: black;
 }
 
+.btn-primary:hover {
+    background-color: #ffc86b;
+    color: black;
+}
+
+.form-check-input:checked {
+    background-color: #FABB51;
+    border-color: #FABB51;
+}
+
 #search-btn {
     color: black;
     background-color: #FABB51;
