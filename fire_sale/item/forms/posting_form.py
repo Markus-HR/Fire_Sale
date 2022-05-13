@@ -45,11 +45,11 @@ class ItemCreateForm(ModelForm):
 
             'image3': widgets.TextInput(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Optional mage url...'}),
+                       'placeholder': 'Optional image url...'}),
 
             'image4': widgets.TextInput(
                 attrs={'class': 'form-control',
-                       'placeholder': 'Optional mage url...'}),
+                       'placeholder': 'Optional image url...'}),
 
             'image5': widgets.TextInput(
                 attrs={'class': 'form-control',
