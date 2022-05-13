@@ -157,8 +157,15 @@ def view_offers(request, id):
     post_id = get_post_id(id)
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
+        'seller_id': get_user_from_post_id(post_id),
         'bids': get_post_bids(post_id),
     })
+
+
+def get_user_from_post_id(post_id):
+    post = Postings.objects.filter(pk=post_id)[0]
+    user = post.user_id
+    return user
 
 
 def accept_offer(request, bidid):
