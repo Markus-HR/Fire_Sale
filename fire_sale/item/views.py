@@ -38,6 +38,8 @@ def index(request, id):
         'form': form,
         'item': item,
         'images': get_images_lis(item),
+        'date': post.creation_date,
+        'seller': {'user': post.user.username, 'user_id': post.user_id},
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
@@ -62,6 +64,10 @@ def create_posting(request):
     })
 
 
+def get_poster_name(post_id):
+    pass
+
+
 def get_images_lis(item):
     image_lis = [item.image1]
     if item.image2:
@@ -73,8 +79,6 @@ def get_images_lis(item):
     if item.image5:
         image_lis.append(item.image5)
     return image_lis
-
-
 
 
 def get_post_item(item_id, post_id):
@@ -153,8 +157,16 @@ def view_offers(request, id):
     post_id = get_post_id(id)
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
+        'seller_id': get_user_from_post_id(post_id),
+        'has_accepted_bid': check_accepted_bid(post_id),
         'bids': get_post_bids(post_id),
     })
+
+
+def get_user_from_post_id(post_id):
+    post = Postings.objects.filter(pk=post_id)[0]
+    user = post.user_id
+    return user
 
 
 def accept_offer(request, bidid):
@@ -192,7 +204,6 @@ Thank you for using FireSale!
 
 With the bestest of regards and loads of love, The FireSale Team"""
     sendmail(email, subject, message)
-
 
 
 def get_post_bids(post_id):

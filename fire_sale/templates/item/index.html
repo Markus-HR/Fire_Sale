@@ -12,6 +12,8 @@
                         <p>Highest offer: ${{ max_bid }}</p>
                         <p>Condition: {{ item.condition }}</p>
                         <p>Category: {{ item.category.name }}</p>
+                        <p>Posted on: {{ date }} </p>
+                        <p>Seller: <a href="{% url 'view-profile' seller.user_id %}" class="name-link">{{ seller.user }}</a></p>
                     </div>
                     {% if not user.is_authenticated %}
                         <div class="col mt-8">

@@ -1,15 +1,15 @@
-MV W	checkout
+MV W	checkout add item info
 
-LM W	add date to item site
-LM W	Allow people to view others profiles (name, bio, profile pic)
 LM W	Multiple pictures per item
 
-DK X	accept offer
-DK W	view my bids - Needs to fix many bids on same item
-DK W	Hide items with accepted bids in catalogue
 DK X	Notification system
+DK X	Make sure user can not accept a bid on a post with an accepted bid using the url
+	check if user authorized and check if correct user for:
+DK X	my postings/accept offer
+   	bids
+	postings etc
 
-	check if user authorized and check if correct user for bids/postings etc
+
 
 	Multiple Catagories per item
 
