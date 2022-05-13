@@ -188,7 +188,6 @@ With the bestest of regards and loads of love, The FireSale Team"""
     sendmail(email, subject, message)
 
 
-
 def get_post_bids(post_id):
     post_bids = [{
         'p_bid_id': x.id,
