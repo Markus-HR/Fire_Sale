@@ -1,8 +1,7 @@
 from django import forms
-from django.core.validators import MinValueValidator, MinLengthValidator, MaxLengthValidator
-
-from catalogue.models import Ratings, Postings
-from checkout.models import Contacts, Payments, Orders, Country
+from django.core.validators import MinLengthValidator, MaxLengthValidator
+from catalogue.models import Ratings
+from checkout.models import Payments, Country
 from django.db.transaction import commit
 from checkout.models import Contacts
 
@@ -157,7 +156,7 @@ class RatingForm(forms.Form):
                  (5, "5")))
 
     def get_data_dict(self):
-        rating_dict = {'rating': self.data.get('rating', None)}
+        rating_dict = {'rating': self.data.get('rating-rating', None)}
         return rating_dict
 
     def read_from_dict(self, rating_dict):
@@ -172,7 +171,8 @@ class ContactReviewForm(forms.ModelForm):
     first_name = forms.CharField(
         label='First name',
         widget=forms.TextInput(
-            attrs={'placeholder': 'First name',
+            attrs={'name': 'contact_first_name',
+                   'placeholder': 'First name',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -181,7 +181,8 @@ class ContactReviewForm(forms.ModelForm):
     last_name = forms.CharField(
         label='Last name',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Last name',
+            attrs={'name': 'contact_last_name',
+                   'placeholder': 'Last name',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -190,7 +191,8 @@ class ContactReviewForm(forms.ModelForm):
     street_name = forms.CharField(
         label='Street name',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Street name',
+            attrs={'name': 'contact_street_name',
+                   'placeholder': 'Street name',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -199,7 +201,8 @@ class ContactReviewForm(forms.ModelForm):
     street_no = forms.CharField(
         label='Street Number',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Street Number',
+            attrs={'name': 'contact_street_no',
+                   'placeholder': 'Street Number',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -208,9 +211,9 @@ class ContactReviewForm(forms.ModelForm):
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
         label='Country',
-        required=False,
         widget=forms.Select(
-            attrs={'placeholder': 'Country',
+            attrs={'name': 'contact_country',
+                   'placeholder': 'Country',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -219,19 +222,20 @@ class ContactReviewForm(forms.ModelForm):
     post_code = forms.CharField(
         label='Postal code',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Postal code',
+            attrs={'name': 'contact_post_code',
+                   'placeholder': 'Postal code',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
     def get_data_dict(self):
-        contact_dict = {'first_name': self.data['first_name'],
-                        'last_name': self.data['last_name'],
-                        'street_name': self.data['street_name'],
-                        'street_no': self.data['street_no'],
-                        'country': self.data['country'],
-                        'post_code': self.data['post_code']}
+        contact_dict = {'first_name': self.data['contact-first_name'],
+                        'last_name': self.data['contact-last_name'],
+                        'street_name': self.data['contact-street_name'],
+                        'street_no': self.data['contact-street_no'],
+                        'country': self.data['contact-country'],
+                        'post_code': self.data['contact-post_code']}
         return contact_dict
 
     def read_from_dict(self, contact_dict):
@@ -266,8 +270,9 @@ class PaymentReviewForm(forms.ModelForm):
     name = forms.CharField(
         label='Name',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Name',
-                   'style': 'width: 300px;'
+            attrs={'name': 'payment_name',
+                   'placeholder': 'Name',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -276,8 +281,9 @@ class PaymentReviewForm(forms.ModelForm):
         label='Card number',
         validators=[MinLengthValidator(16), MaxLengthValidator(16)],
         widget=forms.TextInput(
-            attrs={'placeholder': 'Card number',
-                   'style': 'width: 300px;'
+            attrs={'name': 'payment_card_no',
+                   'placeholder': 'Card number',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -286,8 +292,9 @@ class PaymentReviewForm(forms.ModelForm):
         label='Expiration date',
         widget=forms.SelectDateWidget(
             empty_label=("Choose Year", "Choose Month", "Choose Day"),
-            attrs={'placeholder': 'Expiration date',
-                   'style': 'width: 300px;'
+            attrs={'name': 'payment_expiration_date',
+                   'placeholder': 'Expiration date',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -295,19 +302,20 @@ class PaymentReviewForm(forms.ModelForm):
     cvc = forms.CharField(
         label='cvc',
         widget=forms.TextInput(
-            attrs={'placeholder': 'cvc',
-                   'style': 'width: 300px;'
+            attrs={'name': 'payment_cvc',
+                   'placeholder': 'cvc',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
     def get_data_dict(self):
-        payment_dict = {'name': self.data['name'],
-                        'card_no': self.data['card_no'],
-                        'expiration_date': f"{self.data['expiration_date_year']}-" +
-                                           f"{self.data['expiration_date_month']}-" +
-                                           f"{self.data['expiration_date_day']}",
-                        'cvc': self.data['cvc']}
+        payment_dict = {'name': self.data['payment-name'],
+                        'card_no': self.data['payment-card_no'],
+                        'expiration_date': f"{self.data['payment-expiration_date_year']}-" +
+                                           f"{self.data['payment-expiration_date_month']}-" +
+                                           f"{self.data['payment-expiration_date_day']}",
+                        'cvc': self.data['payment-cvc']}
         return payment_dict
 
     def read_from_dict(self, payment_dict):
@@ -331,8 +339,9 @@ class RatingReviewForm(forms.ModelForm):
         fields = ['rating']
         widgets = {
             'rating': forms.widgets.TextInput(
-                attrs={'placeholder': 'rating',
-                       'style': 'width: 300px;'
+                attrs={'name': 'rating_rating',
+                       'placeholder': 'rating',
+                       'style': 'width: 18rem;'
                                 'display: block;'
                                 'margin : 0 auto;',
                        'class': 'form-control'})}
@@ -351,11 +360,15 @@ class RatingReviewForm(forms.ModelForm):
 
 # Help functions for forms
 def create_contact_model(contact_dict):
+    country = None
+    if len(contact_dict['country']) > 0:
+        if Country.objects.filter(id=contact_dict['country']).exists():
+            country = Country.objects.get(id=contact_dict['country'])
     contact = Contacts(first_name=contact_dict['first_name'],
                        last_name=contact_dict['last_name'],
                        street_name=contact_dict['street_name'],
                        street_no=contact_dict['street_no'],
-                       country=Country.objects.get(id=contact_dict['country']),
+                       country=country,
                        post_code=contact_dict['post_code'])
     return contact
 

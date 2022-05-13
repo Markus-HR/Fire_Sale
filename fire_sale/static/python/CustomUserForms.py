@@ -14,7 +14,7 @@ class RegisterForm(UserCreationForm):
         label='Email',
         widget=forms.EmailInput(
             attrs={'placeholder': 'Email',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -23,7 +23,7 @@ class RegisterForm(UserCreationForm):
         label='Username',
         widget=forms.TextInput(
             attrs={'placeholder': 'Username',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -32,7 +32,7 @@ class RegisterForm(UserCreationForm):
         label='Password',
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Password',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -40,7 +40,7 @@ class RegisterForm(UserCreationForm):
         label='Confirm Password',
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Password',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -51,7 +51,7 @@ class LoginForm(AuthenticationForm):
         label='Username',
         widget=forms.TextInput(
             attrs={'placeholder': 'Email',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -60,7 +60,7 @@ class LoginForm(AuthenticationForm):
         label='Password',
         widget=forms.PasswordInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -78,19 +78,18 @@ class EditProfileForm(forms.ModelForm):
         label='Bio',
         widget=forms.TextInput(
             attrs={'placeholder': 'Bio',
-                   'style': 'width: 300px;'
-                            'height: 200px'
+                   'style': 'width: 18rem;'
+                            'height: 15rem'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    # img = forms.ImageField()
     profile_picture = forms.CharField(
         label='image',
         widget=forms.TextInput(
             attrs={'placeholder': 'URL',
-                   'style': 'width: 300px;'
-                            'height: 200px'
+                   'style': 'width: 18rem;'
+                            'height: 15rem'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))

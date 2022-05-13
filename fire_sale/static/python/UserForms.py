@@ -13,7 +13,7 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={'placeholder': 'Email',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )
@@ -21,7 +21,7 @@ class RegisterForm(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )
@@ -29,7 +29,7 @@ class RegisterForm(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )
@@ -37,7 +37,7 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )
@@ -60,7 +60,7 @@ class UserLogin(forms.ModelForm):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )
@@ -68,7 +68,7 @@ class UserLogin(forms.ModelForm):
     password = forms.CharField(
         widget=forms.PasswordInput(
             attrs={'placeholder': 'password',
-                   'style': 'width: 300px;',
+                   'style': 'width: 18rem;',
                    'class': 'form-control'}
         )
     )

@@ -3,16 +3,28 @@
     <div class="user-form">
         <form method="post">
             {% csrf_token %}
-            <br/>
-            <h1>Contact Information</h1>
-            {{ ContactForm }}
-            <br/>
-            <h1>Payment Information</h1>
-            {{ PaymentForm }}
-            <br/>
-            <h1>Seller Rating</h1>
-            {{ RatingForm }}
-            <br/>
+            <div class="row">
+                <div class="col">
+                    <br/>
+                    <h1>Contact Information</h1>
+                    {{ ContactForm }}
+                    <br/>
+                    <h1>Payment Information</h1>
+                    {{ PaymentForm }}
+                    <br/>
+                    <h1>Seller Rating</h1>
+                    {{ RatingForm }}
+                    <br/>
+                </div>
+                <div class="col">
+                    <br/>
+                    <h1>Item Information</h1>
+                    <img src="{{ ItemImg }}" class="checkout-img" alt="...">
+                    <br/>
+                    {{ ItemForm }}
+                    {{ BidForm }}
+                </div>
+            </div>
             <input name="Back" class="btn-primary" type="submit" value="Back"/>
             <input class="btn-primary" type="submit" value="Confirm"/>
         </form>
