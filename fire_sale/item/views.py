@@ -33,11 +33,11 @@ def index(request, id):
     else:
         form = BidCreateForm()
     bids_lis = get_bids_lis(post_id)
+    item = get_object_or_404(Items, pk=id)
     return render(request, 'item/index.html', {
         'form': form,
-        'item': get_object_or_404(Items, pk=id),
-        'main_image': Images.objects.filter(item_id=id)[0],
-        'images': get_images_lis(id),
+        'item': item,
+        'images': get_images_lis(item),
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
@@ -62,13 +62,19 @@ def create_posting(request):
     })
 
 
-def get_images_lis(id):
-    images_lis = []
-    img_set = Images.objects.all()
-    for image in img_set.iterator():
-        if image.item_id == id:
-            images_lis.append(image)
-    return images_lis
+def get_images_lis(item):
+    image_lis = [item.image1]
+    if item.image2:
+        image_lis.append(item.image2)
+    if item.image3:
+        image_lis.append(item.image3)
+    if item.image4:
+        image_lis.append(item.image4)
+    if item.image5:
+        image_lis.append(item.image5)
+    return image_lis
+
+
 
 
 def get_post_item(item_id, post_id):
