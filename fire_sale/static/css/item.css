@@ -61,6 +61,10 @@
     overflow: auto;
 }
 
+.image-carousel-container {
+    min-height: 20rem;
+}
+
 #create-posting-form {
     width: 60%;
     margin-left: auto;

@@ -2,12 +2,22 @@ alter sequence item_category_id_seq restart with 1;
 delete from item_category;
 insert into item_category(name)
 values
-    ('Toys'),
-    ('Vehicles'),
-    ('Furniture'),
-    ('Real-estate'),
+    ('Auto parts and accessories'),
+    ('Baby equipment'),
+    ('Books, CD´s and other media'),
+    ('Collectibles and art'),
     ('Electronics'),
-    ('Clothes');
+    ('Fashion'),
+    ('Food'),
+    ('Gifts'),
+    ('Health and beauty'),
+    ('Home and garden'),
+    ('Musical instruments and gear'),
+    ('Real-estate'),
+    ('Sporting goods'),
+    ('Toys, hobby & DIY'),
+    ('Vehicles'),
+    ('Other');
 
 
 alter sequence item_items_id_seq restart with 1;
