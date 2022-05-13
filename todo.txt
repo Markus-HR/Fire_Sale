@@ -3,7 +3,7 @@ MV W	checkout add item info
 LM W	Multiple pictures per item
 
 DK X	Notification system
-	Make sure user can not accept a bid on a post with an accepted bid using the url
+DK X	Make sure user can not accept a bid on a post with an accepted bid using the url
 	check if user authorized and check if correct user for:
 DK X	my postings/accept offer
    	bids
