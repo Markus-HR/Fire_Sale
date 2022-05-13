@@ -1,0 +1,8 @@
+<div class="card bid-log-card">
+    <div class="card-body bid-inner-log-card">
+        <p class="bid-log-text">Item Name: {{ bid.item_name }} </p>
+        <p class="bid-log-text">Your Bid: {{ bid.price }} </p>
+        <p class="bid-log-text">Accepted: {% if bid.accepted %} Yes {% else %} No {% endif %}</p>
+    </div>
+</div>
+

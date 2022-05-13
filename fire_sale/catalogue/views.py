@@ -118,9 +118,24 @@ def my_accepted_bids(request):
                                                item__name__icontains=search_filter)
         post_item = get_post_item(search_query, request)
         return JsonResponse({'data': post_item, 'accepted': 'accepted'})
-    query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True)
+    query = Postings.objects.filter(bids__user=request.user.id, bids__accept=True, item__postings__open=True)
     context = {'data': get_post_item(query, request), 'accepted': 'accepted'}
     return render(request, 'catalogue/bids/my_bids.html', context)
+
+
+def bid_history(request):
+    query = Bids.objects.filter(user=request.user.id)
+    context = {'data': get_bid_log(query)}
+    return render(request, 'catalogue/bids/bid_log.html', context)
+
+
+def get_bid_log(query):
+    post_item = [{
+        'price': x.price,
+        'item_name': x.posting.item.name,
+        'accepted': x.accept
+    } for x in query]
+    return post_item
 
 
 # My postings section

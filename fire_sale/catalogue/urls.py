@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:id>/checkout', views.checkout, name='checkout'),
     path('<int:id>/session_checkout', views.session_checkout, name='session_checkout'),
     path('<int:id>/checkout_review', views.checkout_review, name='checkout_review'),
+    path('bid_history', views.bid_history, name='bid_history'),
 ]

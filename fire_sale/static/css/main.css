@@ -101,6 +101,11 @@ footer {
     color: black;
 }
 
+.btn-primary:focus {
+    background-color: #ffc86b;
+    color: black;
+}
+
 .form-check-input:checked {
     background-color: #FABB51;
     border-color: #FABB51;
@@ -226,4 +231,19 @@ footer {
     width: 100%;
     object-fit: contain;
     margin-bottom: 0.5em;
+}
+
+.bid-log-card {
+    height: 5rem;
+    overflow: auto;
+}
+
+.bid-log-text {
+    font-size: small;
+    margin-bottom: 0;
+}
+
+.bid-inner-log-card {
+    padding-right: 0;
+    padding-bottom: 0;
 }
