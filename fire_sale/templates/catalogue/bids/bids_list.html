@@ -10,7 +10,9 @@
                     {% endfor %}
                 {% else %}
                     {% for post in data %}
-                        {% include 'catalogue/bids/single_bid.html' with post=post%}
+                        {% if not post.has_accepted_bid %}
+                            {% include 'catalogue/bids/single_bid.html' with post=post%}
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
             {% endif %}
