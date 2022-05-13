@@ -109,6 +109,7 @@ footer {
     height: 12rem;
     background-color: #faedc6;
     color: black;
+    margin-bottom: 1em;
 }
 
 .card-body {
