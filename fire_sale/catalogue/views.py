@@ -155,6 +155,9 @@ def my_postings(request):
 def checkout(request, *args, **kwargs):
     _remove_session_vars(request)
     posting = get_object_or_404(Postings, id=kwargs['id'])
+    if not _valid_user_session(request, posting):
+        return redirect('catalogue-index')
+
     item_form = _create_item_form(posting)
     bid_form = _create_max_bid_form(posting)
 
@@ -185,6 +188,9 @@ def checkout(request, *args, **kwargs):
 
 def session_checkout(request, *args, **kwargs):
     posting = get_object_or_404(Postings, id=kwargs['id'])
+    if not _valid_user_session(request, posting):
+        return redirect('catalogue-index')
+
     item_form = _create_item_form(posting)
     bid_form = _create_max_bid_form(posting)
     if request.method == "POST":
@@ -219,6 +225,9 @@ def session_checkout(request, *args, **kwargs):
 
 def checkout_review(request, *args, **kwargs):
     posting = get_object_or_404(Postings, id=kwargs['id'])
+    if not _valid_user_session(request, posting):
+        return redirect('catalogue-index')
+
     item_form = _create_item_form(posting)
     bid_form = _create_max_bid_form(posting)
     if request.method == "POST":
@@ -259,6 +268,12 @@ def checkout_review(request, *args, **kwargs):
         'BidForm': bid_form,
         'ItemImg': posting.item.image1,
     })
+
+
+def _valid_user_session(request, posting):
+    if Bids.objects.filter(posting=posting, user=request.user, accept=True).exists():
+        return True
+    return False
 
 
 def _create_item_form(posting):
