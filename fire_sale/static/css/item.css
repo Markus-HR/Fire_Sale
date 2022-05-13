@@ -57,6 +57,10 @@
     grid-template-columns: 2fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr;
 }
 
+.div_overflow {
+    overflow: auto;
+}
+
 #create-posting-form {
     width: 60%;
     margin-left: auto;
@@ -97,6 +101,7 @@
 #prevBids {
     position:absolute;
     width:90%;
+    overflow-x: hidden;
 }
 
 
@@ -114,11 +119,11 @@
 }
 
 /* Handle */
-.scrollbar-history::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
   background: #888;
 }
 
 /* Handle on hover */
-.scrollbar-history::-webkit-scrollbar-thumb:hover {
+.scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
