@@ -237,7 +237,6 @@ def checkout_review(request, *args, **kwargs):
             rating = request.session['RatingForm']['rating']
             if rating:
                 _commit_rating(posting,
-                               request.user,
                                rating)
             return redirect('catalogue-index')
     else:
@@ -313,10 +312,10 @@ def _commit_data(request, posting, contact_form, payment_form):
     _close_posting(posting)
 
 
-def _commit_rating(posting, user, rating):
+def _commit_rating(posting, rating):
     new_rating = Ratings()
     new_rating.posting = posting
-    new_rating.user = user
+    new_rating.user = posting.user
     new_rating.rating = rating
     new_rating.save()
 
