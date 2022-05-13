@@ -1,6 +1,5 @@
 body {
     background-color: #EDE8CF;
-    /*margin-bottom: 5rem;*/
 }
 
 .navbar.navbar-light.bg-light {
@@ -38,9 +37,8 @@ body {
     text-align: center;
 }
 
-.container {
-    /*background-color: #b8ddc4;*/
-    /*min-height: 40rem;*/
+.main-content-container {
+    min-height: 100vh;
 }
 
 footer {
