@@ -2,6 +2,10 @@ from django.shortcuts import render, redirect
 from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from checkout.models import Orders
+from item.forms.Item_Information import ItemInfoForm
+from item.forms.ShowItemPrice import ItemPriceForm
 from static.python.CheckoutForms import *
 
 
@@ -135,65 +139,81 @@ def my_postings(request):
 # Checkout section
 def checkout(request, *args, **kwargs):
     _remove_session_vars(request)
+    posting = get_object_or_404(Postings, id=kwargs['id'])
+    item_form = _create_item_form(posting)
+    bid_form = _create_max_bid_form(posting)
+
     if request.method == "POST":
-        contact_form = ContactReviewForm(data=request.POST)
-        payment_form = PaymentReviewForm(data=request.POST)
-        rating_form = RatingForm(data=request.POST)
-        # if contact_form.is_valid():
+        contact_form = ContactReviewForm(data=request.POST, prefix='contact')
+        payment_form = PaymentReviewForm(data=request.POST, prefix='payment')
+        rating_form = RatingForm(data=request.POST, prefix='rating')
         request.session['ContactForm'] = contact_form.get_data_dict()
         request.session['PaymentForm'] = payment_form.get_data_dict()
         request.session['RatingForm'] = rating_form.get_data_dict()
         return redirect('checkout_review', id=kwargs['id'])
     else:
-        contact_form = ContactReviewForm()
+        contact_form = ContactReviewForm(prefix='contact')
         contact_form.not_required_fields()
-        payment_form = PaymentReviewForm()
+        payment_form = PaymentReviewForm(prefix='payment')
         payment_form.not_required_fields()
-        rating_form = RatingForm()
+        rating_form = RatingForm(prefix='rating')
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
         'PaymentForm': payment_form,
         'RatingForm': rating_form,
+        'ItemForm': item_form,
+        'BidForm': bid_form,
+        'ItemImg': posting.item.image1
     })
 
 
 def session_checkout(request, *args, **kwargs):
+    posting = get_object_or_404(Postings, id=kwargs['id'])
+    item_form = _create_item_form(posting)
+    bid_form = _create_max_bid_form(posting)
     if request.method == "POST":
-        contact_form = ContactReviewForm(data=request.POST)
-        payment_form = PaymentReviewForm(data=request.POST)
-        rating_form = RatingForm(data=request.POST)
+        contact_form = ContactReviewForm(data=request.POST, prefix='contact')
+        payment_form = PaymentReviewForm(data=request.POST, prefix='payment')
+        rating_form = RatingForm(data=request.POST, prefix='rating')
         request.session['ContactForm'] = contact_form.get_data_dict()
         request.session['PaymentForm'] = payment_form.get_data_dict()
         request.session['RatingForm'] = rating_form.get_data_dict()
         return redirect('checkout_review', id=kwargs['id'])
     else:
         contact_form = ContactReviewForm(
-            instance=create_contact_model(request.session['ContactForm']))
+            instance=create_contact_model(request.session['ContactForm']),
+            prefix='contact')
         contact_form.not_required_fields()
         payment_form = PaymentReviewForm(
-            instance=create_payment_model(request.session['PaymentForm']))
+            instance=create_payment_model(request.session['PaymentForm']),
+            prefix='payment')
         payment_form.not_required_fields()
-        rating_form = RatingForm()
+        rating_form = RatingForm(prefix='rating')
         rating_form.read_from_dict(request.session['RatingForm'])
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
         'PaymentForm': payment_form,
         'RatingForm': rating_form,
+        'ItemForm': item_form,
+        'BidForm': bid_form,
+        'ItemImg': posting.item.image1,
     })
 
 
 def checkout_review(request, *args, **kwargs):
+    posting = get_object_or_404(Postings, id=kwargs['id'])
+    item_form = _create_item_form(posting)
+    bid_form = _create_max_bid_form(posting)
     if request.method == "POST":
-        contact_form = ContactReviewForm(data=request.POST)
-        payment_form = PaymentReviewForm(data=request.POST)
-        rating_form = RatingReviewForm(data=request.POST)
+        contact_form = ContactReviewForm(data=request.POST, prefix='contact')
+        payment_form = PaymentReviewForm(data=request.POST, prefix='payment')
+        rating_form = RatingReviewForm(data=request.POST, prefix='rating')
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
         if request.POST.get("Back") == "Back":
             return redirect('session_checkout', id=kwargs['id'])
         if contact_form.is_valid() and payment_form.is_valid():
-            posting = Postings.objects.get(id=kwargs['id'])
             _commit_data(request,
                          posting,
                          contact_form,
@@ -207,18 +227,38 @@ def checkout_review(request, *args, **kwargs):
             return redirect('catalogue-index')
     else:
         contact_form = ContactReviewForm(
-            instance=create_contact_model(request.session['ContactForm']))
+            instance=create_contact_model(request.session['ContactForm']),
+            prefix='contact')
         payment_form = PaymentReviewForm(
-            instance=create_payment_model(request.session['PaymentForm']))
+            instance=create_payment_model(request.session['PaymentForm']),
+            prefix='payment')
         rating_form = RatingReviewForm(
-            instance=create_rating_model(request.session['RatingForm']))
+            instance=create_rating_model(request.session['RatingForm']),
+            prefix='rating')
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
 
     return render(request, 'catalogue/checkout/checkout_review.html', {
         'ContactForm': contact_form,
         'PaymentForm': payment_form,
         'RatingForm': rating_form,
+        'ItemForm': item_form,
+        'BidForm': bid_form,
+        'ItemImg': posting.item.image1,
     })
+
+
+def _create_item_form(posting):
+    item = posting.item
+    item_form = ItemInfoForm(instance=item)
+    item_form.disable_fields()
+    return item_form
+
+
+def _create_max_bid_form(posting):
+    bid = Bids.objects.get(posting=posting, accept=True)
+    bid_form = ItemPriceForm(instance=bid)
+    bid_form.disable_fields()
+    return bid_form
 
 
 def _read_session_vars(request, contact_form, payment_form, rating_form):
