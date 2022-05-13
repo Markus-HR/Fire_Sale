@@ -244,7 +244,7 @@ class ContactReviewForm(forms.ModelForm):
                         'last_name': self.data['contact-last_name'],
                         'street_name': self.data['contact-street_name'],
                         'house_no': self.data['contact-house_no'],
-                        'city': self.data['contact-city_no'],
+                        'city': self.data['contact-city'],
                         'country': self.data['contact-country'],
                         'post_code': self.data['contact-post_code']}
         return contact_dict
