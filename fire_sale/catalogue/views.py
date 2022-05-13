@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from catalogue.models import Postings, Bids
 from django.template.defaulttags import register
-from django.http import JsonResponses
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from checkout.models import Orders
 from item.forms.Item_Information import ItemInfoForm
