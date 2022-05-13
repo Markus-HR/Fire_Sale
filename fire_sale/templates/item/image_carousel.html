@@ -1,8 +1,8 @@
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
       {%  for image in images %}
-        <div class="carousel-item {% if forloop.first %}active{% endif %}" style="max-height: 17rem;">
-          <img src="{{ image }}" class="d-block w-100" alt="..." style="object-fit: cover;">
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <img src="{{ image }}" class="d-block w-100 carousel-image" alt="...">
         </div>
       {% endfor %}
   </div>
