@@ -66,10 +66,10 @@ def edit_profile(request, *args, **kwargs):
 
 
 def view_profile(request, userid):
-    user = get_object_or_404(User, pk=userid)
+    view_user = get_object_or_404(User, pk=userid)
     user_profile = get_user_profile(userid)
     return render(request, 'user/view_profile.html', {
-        'user': user,
+        'viewedUser': view_user,
         'userProfile': user_profile,
         'userRating': calculate_user_rating(userid),
         'data': get_post_item(userid)
@@ -110,9 +110,18 @@ def get_post_item(userid):
         'category': x.item.category.name,
         'date': x.creation_date,
         'open': x.open,
+        'has_accepted_bid': check_accepted_bid(x.id)[0],
         'itemid': x.item_id
     } for x in posts]
     return post_item
+
+
+def check_accepted_bid(post_id):
+    bids = Bids.objects.filter(posting_id=post_id, accept=True)
+    if bids:
+        return [True, [x.price for x in bids]]
+    else:
+        return [False, [0]]
 
 
 class CustomLoginView(LoginView):

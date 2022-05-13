@@ -2,3 +2,14 @@ A W	Testing
 A W	Bug Fixing
 A	Tutorial video	
 A	Turning it in
+
+
+Hreinsa gagnagrunn
+testa síðunna - kröfulisti / use cases
+búa til handrit fyrir myndband
+æfa myndbandið
+taka upp myndband
+edita myndbandið
+pakka vefsíðunni
+uploada myndbandi
+submitta
