@@ -198,11 +198,11 @@ class ContactReviewForm(forms.ModelForm):
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    street_no = forms.CharField(
-        label='Street Number',
+    house_no = forms.CharField(
+        label='House Number',
         widget=forms.TextInput(
-            attrs={'name': 'contact_street_no',
-                   'placeholder': 'Street Number',
+            attrs={'name': 'contact_house_no',
+                   'placeholder': 'House Number',
                    'style': 'width: 300px;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -233,7 +233,8 @@ class ContactReviewForm(forms.ModelForm):
         contact_dict = {'first_name': self.data['contact-first_name'],
                         'last_name': self.data['contact-last_name'],
                         'street_name': self.data['contact-street_name'],
-                        'street_no': self.data['contact-street_no'],
+                        'house_no': self.data['contact-house_no'],
+                        'city': self.data['contact-city_no'],
                         'country': self.data['contact-country'],
                         'post_code': self.data['contact-post_code']}
         return contact_dict
@@ -242,7 +243,8 @@ class ContactReviewForm(forms.ModelForm):
         self.fields['first_name'] = contact_dict['first_name']
         self.fields['last_name'] = contact_dict['last_name']
         self.fields['street_name'] = contact_dict['street_name']
-        self.fields['street_no'] = contact_dict['street_no']
+        self.fields['house_no'] = contact_dict['house_no']
+        self.fields['city'] = contact_dict['city']
         self.fields['country'] = contact_dict['country']
         self.fields['post_code'] = contact_dict['post_code']
 
@@ -367,7 +369,8 @@ def create_contact_model(contact_dict):
     contact = Contacts(first_name=contact_dict['first_name'],
                        last_name=contact_dict['last_name'],
                        street_name=contact_dict['street_name'],
-                       street_no=contact_dict['street_no'],
+                       house_no=contact_dict['house_no'],
+                       city=contact_dict['city'],
                        country=country,
                        post_code=contact_dict['post_code'])
     return contact

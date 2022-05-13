@@ -15,7 +15,8 @@ class Contacts(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     street_name = models.CharField(max_length=100)
-    street_no = models.IntegerField()
+    house_no = models.IntegerField()
+    city = models.CharField(max_length=100)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     post_code = models.CharField(max_length=100)
 
