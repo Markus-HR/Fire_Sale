@@ -48,6 +48,14 @@
     overflow: auto;
 }
 
+.carousel-item {
+    max-height: 20rem;
+}
+
+.carousel-image {
+    object-fit: cover;
+}
+
 .card-text-related {
     font-size: x-small;
 }
