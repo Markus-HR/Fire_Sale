@@ -22,11 +22,13 @@
 .card-related {
     width: 6rem;
     height: 8rem;
+    overflow: hidden;
+    position: relative;
 }
 
 .card-body-related {
     padding-top: 0.1rem;
-    text-align: center;
+    position: relative;
     height: 2rem;
 }
 
@@ -38,6 +40,12 @@
 
 .card-title-related {
     font-size: x-small;
+    padding: 0px;
+    max-height: 100%;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    overflow: auto;
 }
 
 .card-text-related {
@@ -96,21 +104,21 @@
 
 
 /* width */
-#bidding-history::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-#bidding-history::-webkit-scrollbar-track {
+.scrollbar::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
-#bidding-history::-webkit-scrollbar-thumb {
+.scrollbar-history::-webkit-scrollbar-thumb {
   background: #888;
 }
 
 /* Handle on hover */
-#bidding-history::-webkit-scrollbar-thumb:hover {
+.scrollbar-history::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
