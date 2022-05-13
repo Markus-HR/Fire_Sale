@@ -119,6 +119,21 @@ def my_accepted_bids(request):
     return render(request, 'catalogue/bids/my_bids.html', context)
 
 
+def bid_history(request):
+    query = Bids.objects.filter(user=request.user.id)
+    context = {'data': get_bid_log(query)}
+    return render(request, 'catalogue/bids/bid_log.html', context)
+
+
+def get_bid_log(query):
+    post_item = [{
+        'price': x.price,
+        'item_name': x.posting.item.name,
+        'accepted': x.accept
+    } for x in query]
+    return post_item
+
+
 # My postings section
 def my_postings(request):
     if 'search_filter' in request.GET:

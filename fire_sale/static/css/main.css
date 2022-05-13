@@ -176,3 +176,18 @@ footer {
     object-fit: contain;
     margin-bottom: 0.5em;
 }
+
+.bid-log-card {
+    height: 5rem;
+    overflow: auto;
+}
+
+.bid-log-text {
+    font-size: small;
+    margin-bottom: 0;
+}
+
+.bid-inner-log-card {
+    padding-right: 0;
+    padding-bottom: 0;
+}
