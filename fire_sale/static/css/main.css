@@ -103,6 +103,8 @@ footer {
 
 .btn-primary:focus {
     background-color: #ffc86b;
+    outline: none;
+    box-shadow: none;
     color: black;
 }
 
