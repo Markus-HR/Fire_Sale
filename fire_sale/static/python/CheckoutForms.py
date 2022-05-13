@@ -208,6 +208,16 @@ class ContactReviewForm(forms.ModelForm):
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
+    city = forms.CharField(
+        label='City',
+        widget=forms.TextInput(
+            attrs={'name': 'contact_City',
+                   'placeholder': 'City',
+                   'style': 'width: 300px;'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
+
     country = forms.ModelChoiceField(
         queryset=Country.objects.all(),
         label='Country',
