@@ -1,3 +1,15 @@
+function toNumberString(num) {
+    if (Number.isInteger(num)) {
+        if (num == 0) {
+            return "0"
+        } else {
+            return num + ".0"
+        }
+    } else {
+        return num.toString();
+    }
+}
+
 $(document).ready(function () {
     $('#search-btn').on('click', function (e) {
         e.preventDefault();
@@ -26,7 +38,7 @@ $(document).ready(function () {
                                         <img src="${d.item_pic}" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h6 class="card-title">${d.name}</h6>
-                                            <p class="card-text">$${d.max_bid}</p>
+                                            <p class="card-text">$${toNumberString(d.max_bid)}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -67,7 +79,7 @@ $(document).ready(function () {
                                         <img src="${d.item_pic}" class="card-img-top" alt="...">
                                         <div class="card-body">
                                             <h6 class="card-title">${d.name}</h6>
-                                            <p class="card-text">$${d.max_bid}</p>
+                                            <p class="card-text">$${toNumberString(d.max_bid)}</p>
                                         </div>
                                     </div>
                                 </a>
