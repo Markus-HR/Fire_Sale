@@ -1,16 +1,4 @@
-MV W	checkout add item info
-
-LM W	Multiple pictures per item
-
-DK X	Notification system
-DK X	Make sure user can not accept a bid on a post with an accepted bid using the url
-	check if user authorized and check if correct user for:
-DK X	my postings/accept offer
-   	bids
-	postings etc
-
-
-
-	Multiple Catagories per item
-
-A	tutorial video	
+A W	Testing
+A W	Bug Fixing
+A	Tutorial video	
+A	Turning it in
