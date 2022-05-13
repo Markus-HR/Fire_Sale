@@ -50,7 +50,7 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Email',
+            attrs={'placeholder': 'Username',
                    'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -59,7 +59,7 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(
-            attrs={'placeholder': 'password',
+            attrs={'placeholder': 'Password',
                    'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
@@ -76,7 +76,8 @@ class EditProfileForm(forms.ModelForm):
 
     bio = forms.CharField(
         label='Bio',
-        widget=forms.TextInput(
+        required=False,
+        widget=forms.Textarea(
             attrs={'placeholder': 'Bio',
                    'style': 'width: 18rem;'
                             'height: 15rem'
@@ -86,6 +87,7 @@ class EditProfileForm(forms.ModelForm):
 
     profile_picture = forms.CharField(
         label='image',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'URL',
                    'style': 'width: 18rem;'
@@ -97,10 +99,27 @@ class EditProfileForm(forms.ModelForm):
     def save(self, user):
         user_profile = super().save(commit=False)
         user_profile.user_id = user.id
-        # user_profile.profile_picture = img
         if commit:
             user_profile.save()
         return user_profile
+
+
+class EditProfileUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name'
+        ]
+
+    first_name = forms.CharField(
+        label='Name',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Name',
+                   'style': 'width: 18rem;'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
 
 
 class ImageForm(forms.Form):
