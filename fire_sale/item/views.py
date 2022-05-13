@@ -193,8 +193,8 @@ With the bestest of regards and loads of love, The FireSale Team"""
 
 def send_declined_email_notifications(bid_instance):
     post = bid_instance.posting
-    email_list = [x.user.email for x in Bids.objects.filter(posting_id=post.id)]
-    email = ', '.join(map(str, email_list))
+    email_list = set([x.user.email for x in Bids.objects.filter(posting_id=post.id) if x.user_id != bid_instance.user_id])
+    email = ', '.join(map(str, list(email_list)))
     item = bid_instance.posting.item.name
     subject = "Your Bid Was Declined"
     message = f"""Hello,
