@@ -43,7 +43,8 @@ def index(request, id):
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
-        'data': get_post_item(id, post_id)
+        'data': get_post_item(id, post_id),
+        'has_accepted_bid': check_accepted_bid(post_id)[0],
     })
 
 
@@ -62,10 +63,6 @@ def create_posting(request):
     return render(request, 'item/create_posting.html', {
         'form': form
     })
-
-
-def get_poster_name(post_id):
-    pass
 
 
 def get_images_lis(item):
