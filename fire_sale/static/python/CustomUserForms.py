@@ -14,7 +14,7 @@ class RegisterForm(UserCreationForm):
         label='Email',
         widget=forms.EmailInput(
             attrs={'placeholder': 'Email',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -23,7 +23,7 @@ class RegisterForm(UserCreationForm):
         label='Username',
         widget=forms.TextInput(
             attrs={'placeholder': 'Username',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -32,7 +32,7 @@ class RegisterForm(UserCreationForm):
         label='Password',
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Password',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -40,7 +40,7 @@ class RegisterForm(UserCreationForm):
         label='Confirm Password',
         widget=forms.PasswordInput(
             attrs={'placeholder': 'Password',
-                   'style': 'width: 300px;'
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -50,8 +50,8 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(
         label='Username',
         widget=forms.TextInput(
-            attrs={'placeholder': 'Email',
-                   'style': 'width: 300px;'
+            attrs={'placeholder': 'Username',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -59,8 +59,8 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(
         label='Password',
         widget=forms.PasswordInput(
-            attrs={'placeholder': 'password',
-                   'style': 'width: 300px;'
+            attrs={'placeholder': 'Password',
+                   'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -76,21 +76,22 @@ class EditProfileForm(forms.ModelForm):
 
     bio = forms.CharField(
         label='Bio',
-        widget=forms.TextInput(
+        required=False,
+        widget=forms.Textarea(
             attrs={'placeholder': 'Bio',
-                   'style': 'width: 300px;'
-                            'height: 200px'
+                   'style': 'width: 18rem;'
+                            'height: 15rem'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
 
-    # img = forms.ImageField()
     profile_picture = forms.CharField(
         label='image',
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'URL',
-                   'style': 'width: 300px;'
-                            'height: 200px'
+                   'style': 'width: 18rem;'
+                            'height: 15rem'
                             'display: block;'
                             'margin : 0 auto;',
                    'class': 'form-control'}))
@@ -98,10 +99,27 @@ class EditProfileForm(forms.ModelForm):
     def save(self, user):
         user_profile = super().save(commit=False)
         user_profile.user_id = user.id
-        # user_profile.profile_picture = img
         if commit:
             user_profile.save()
         return user_profile
+
+
+class EditProfileUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name'
+        ]
+
+    first_name = forms.CharField(
+        label='Name',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Name',
+                   'style': 'width: 18rem;'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
 
 
 class ImageForm(forms.Form):

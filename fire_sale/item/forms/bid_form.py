@@ -7,5 +7,11 @@ class BidCreateForm(ModelForm):
         model = Bids
         fields = ['price']
         widgets = {
-            'price': widgets.TextInput(attrs={'class': 'form-control'})
+            'price': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Amount...'})
         }
+
+    def disable_fields(self):
+        for field in self.fields:
+            self.fields[field].widget.attrs['readonly'] = True

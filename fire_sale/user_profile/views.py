@@ -1,10 +1,8 @@
 from statistics import mean
-
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
-
 from catalogue.models import Ratings, Postings, Bids
-from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, ImageForm
+from static.python.CustomUserForms import RegisterForm, LoginForm, EditProfileForm, EditProfileUserForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout as LogoutUser
 from user_profile.models import UserProfile
@@ -14,7 +12,13 @@ def register(request, *args, **kwargs):
     if request.method == 'POST':
         form = RegisterForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.first_name = user.username
+            user.save()
+
+            user_profile = UserProfile()
+            user_profile.user = user
+            user_profile.save()
             return redirect('login')
     else:
         form = RegisterForm()
@@ -30,26 +34,34 @@ def logout(request, *args, **kwargs):
 
 
 def edit_profile(request, *args, **kwargs):
+    user = request.user
     if UserProfile.objects.filter(user_id=request.user.id).exists():
         instance = UserProfile.objects.filter(user_id=request.user.id)[0]
         if request.method == 'POST':
             form = EditProfileForm(data=request.POST, instance=instance)
-            if form.is_valid():
+            user_form = EditProfileUserForm(data=request.POST, instance=user)
+            if form.is_valid() and user_form.is_valid():
                 form.save(request.user)
+                user_form.save()
                 return redirect('profile')
         else:
             form = EditProfileForm(instance=instance)
+            user_form = EditProfileUserForm(instance=user)
     else:
         if request.method == 'POST':
             form = EditProfileForm(data=request.POST)
-            if form.is_valid():
+            user_form = EditProfileUserForm(data=request.POST, instance=user)
+            if form.is_valid() and user_form.is_valid():
                 form.save(request.user)
+                user_form.save()
                 return redirect('profile')
         else:
             form = EditProfileForm()
+            user_form = EditProfileUserForm(instance=user)
 
     return render(request, 'user/edit_profile.html', {
         'form': form,
+        'user_form': user_form,
     })
 
 
