@@ -108,7 +108,8 @@ class EditProfileUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            'first_name'
+            'first_name',
+            'email'
         ]
 
     first_name = forms.CharField(
@@ -116,6 +117,15 @@ class EditProfileUserForm(forms.ModelForm):
         required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Name',
+                   'style': 'width: 18rem;'
+                            'display: block;'
+                            'margin : 0 auto;',
+                   'class': 'form-control'}))
+
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(
+            attrs={'placeholder': 'Email',
                    'style': 'width: 18rem;'
                             'display: block;'
                             'margin : 0 auto;',
