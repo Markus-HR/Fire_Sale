@@ -8,7 +8,7 @@ from static.python.EmailManager import sendmail
 
 from item.forms.bid_form import BidCreateForm
 from item.forms.posting_form import ItemCreateForm
-from item.models import Items, Images
+from item.models import Items
 from catalogue.models import Bids, Ratings
 from catalogue.models import Postings
 
