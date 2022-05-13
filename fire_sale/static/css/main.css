@@ -1,6 +1,5 @@
 body {
     background-color: #EDE8CF;
-    margin-bottom: 5rem;
 }
 
 .navbar.navbar-light.bg-light {
@@ -38,18 +37,17 @@ body {
     text-align: center;
 }
 
-.container {
-    /*background-color: #b8ddc4;*/
-    min-height: 40rem;
+.main-content-container {
+    min-height: 100vh;
 }
 
 footer {
-    position: fixed;
     background-color: #7CD1B8;
-    height: 4rem;
-    width: 100%;
-    text-align: center;
     bottom: 0;
+}
+
+.footer-container {
+    background-color: #7CD1B8;
 }
 
 .cat-options-box {
@@ -61,7 +59,6 @@ footer {
 .cat-grid {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr 2fr;
-    /*background-color: magenta;*/
 }
 
 .bid-btn {
@@ -99,6 +96,16 @@ footer {
     border-color: black;
 }
 
+.btn-primary:hover {
+    background-color: #ffc86b;
+    color: black;
+}
+
+.form-check-input:checked {
+    background-color: #FABB51;
+    border-color: #FABB51;
+}
+
 #search-btn {
     color: black;
     background-color: #FABB51;
@@ -110,10 +117,29 @@ footer {
     height: 12rem;
     background-color: #faedc6;
     color: black;
+    margin-bottom: 1em;
 }
 
 .card-body {
-    padding-top: 0.5rem;
+    position: relative;
+    overflow: auto;
+    padding: 0.5rem 0.5rem 0px;
+}
+
+.adjust-line-height {
+  line-height: 1em;
+}
+
+.card-text-area {
+    position: absolute;
+    max-height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.card-title {
+    padding: 0.1rem;
+    margin: 0px;
 }
 
 .card-link {
@@ -180,4 +206,20 @@ footer {
     border-radius: 0;
     overflow-anchor: none;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease;
+}
+
+    .name-link {
+    color: black;
+}
+
+.about-container {
+    background-color: #b8ddc4;
+    padding: 0.5rem;
+    padding-top: 1rem;
+}
+
+.about-img {
+    width: 100%;
+    object-fit: contain;
+    margin-bottom: 0.5em;
 }

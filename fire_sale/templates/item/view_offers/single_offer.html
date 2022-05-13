@@ -4,7 +4,7 @@
         <div class="col-sm-6">
             <div class="offer-content">
                 Offer Amount: {{ bid.price }} <br>
-                User: {{ bid.user }} <br>
+                User: <a href="{% url 'view-profile' bid.user_id %}" class="name-link">{{ bid.user }}</a> <br>
                 User Rating: {{ bid.user_rating }}
             </div>
         </div>

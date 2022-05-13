@@ -93,7 +93,7 @@ def get_post_item(userid):
     posts = get_user_posts(userid)
     post_item = [{
         'name': x.item.name,
-        'item_pic': x.item.item_picture,
+        'item_pic': x.item.image1,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,

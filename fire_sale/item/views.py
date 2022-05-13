@@ -33,11 +33,13 @@ def index(request, id):
     else:
         form = BidCreateForm()
     bids_lis = get_bids_lis(post_id)
+    item = get_object_or_404(Items, pk=id)
     return render(request, 'item/index.html', {
         'form': form,
-        'item': get_object_or_404(Items, pk=id),
-        'main_image': Images.objects.filter(item_id=id)[0],
-        'images': get_images_lis(id),
+        'item': item,
+        'images': get_images_lis(item),
+        'date': post.creation_date,
+        'seller': {'user': post.user.username, 'user_id': post.user_id},
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
@@ -62,13 +64,21 @@ def create_posting(request):
     })
 
 
-def get_images_lis(id):
-    images_lis = []
-    img_set = Images.objects.all()
-    for image in img_set.iterator():
-        if image.item_id == id:
-            images_lis.append(image)
-    return images_lis
+def get_poster_name(post_id):
+    pass
+
+
+def get_images_lis(item):
+    image_lis = [item.image1]
+    if item.image2:
+        image_lis.append(item.image2)
+    if item.image3:
+        image_lis.append(item.image3)
+    if item.image4:
+        image_lis.append(item.image4)
+    if item.image5:
+        image_lis.append(item.image5)
+    return image_lis
 
 
 def get_post_item(item_id, post_id):
@@ -76,14 +86,23 @@ def get_post_item(item_id, post_id):
     related_posts = get_related_posts(item.category_id, post_id)
     post_item = [{
         'name': x.item.name,
-        'item_pic': Images.objects.filter(item_id=x.item_id)[0],
+        'item_pic': x.item.image1,
         'max_bid': max([y.price for y in Bids.objects.filter(posting_id=x.id)], default=0),
         'category': x.item.category.name,
         'date': x.creation_date,
         'open': x.open,
-        'itemid': x.item_id
+        'itemid': x.item_id,
+        'has_accepted_bid': check_accepted_bid(x.id)[0],
     } for x in related_posts]
     return post_item
+
+
+def check_accepted_bid(post_id):
+    bids = Bids.objects.filter(posting_id=post_id, accept=True)
+    if bids:
+        return [True, [x.price for x in bids]]
+    else:
+        return [False, [0]]
 
 
 def get_max_bid(bid_lis):
@@ -138,8 +157,16 @@ def view_offers(request, id):
     post_id = get_post_id(id)
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
+        'seller_id': get_user_from_post_id(post_id),
+        'has_accepted_bid': check_accepted_bid(post_id),
         'bids': get_post_bids(post_id),
     })
+
+
+def get_user_from_post_id(post_id):
+    post = Postings.objects.filter(pk=post_id)[0]
+    user = post.user_id
+    return user
 
 
 def accept_offer(request, bidid):
@@ -179,13 +206,13 @@ With the bestest of regards and loads of love, The FireSale Team"""
     sendmail(email, subject, message)
 
 
-
 def get_post_bids(post_id):
     post_bids = [{
         'p_bid_id': x.id,
         'price': x.price,
         'accepted': x.accept,
         'user': x.user.username,
+        'user_id': x.user_id,
         'user_rating': calculate_user_rating(x.user_id),
     } for x in Bids.objects.filter(posting_id=post_id).order_by('-price')]
     return post_bids

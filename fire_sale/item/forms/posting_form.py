@@ -10,7 +10,12 @@ class ItemCreateForm(ModelForm):
             'name',
             'condition',
             'long_description',
-            'category'
+            'category',
+            'image1',
+            'image2',
+            'image3',
+            'image4',
+            'image5',
             ]
         widgets = {
             'name': widgets.TextInput(
@@ -29,5 +34,25 @@ class ItemCreateForm(ModelForm):
             'category': widgets.Select(
                 attrs={'class': 'form-control',
                        'placeholder': 'Select a category...'}),
+
+            'image1': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Image url...'}),
+
+            'image2': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Image url...'}),
+
+            'image3': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Image url...'}),
+
+            'image4': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Image url...'}),
+
+            'image5': widgets.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Image url...'}),
 
         }
