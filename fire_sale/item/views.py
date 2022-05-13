@@ -195,6 +195,7 @@ def get_post_bids(post_id):
         'price': x.price,
         'accepted': x.accept,
         'user': x.user.username,
+        'user_id': x.user_id,
         'user_rating': calculate_user_rating(x.user_id),
     } for x in Bids.objects.filter(posting_id=post_id).order_by('-price')]
     return post_bids
