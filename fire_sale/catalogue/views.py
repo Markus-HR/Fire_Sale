@@ -139,7 +139,6 @@ def session_checkout(request, *args, **kwargs):
         contact_form = ContactReviewForm(data=request.POST)
         payment_form = PaymentReviewForm(data=request.POST)
         rating_form = RatingForm(data=request.POST)
-        # if contact_form.is_valid():
         request.session['ContactForm'] = contact_form.get_data_dict()
         request.session['PaymentForm'] = payment_form.get_data_dict()
         request.session['RatingForm'] = rating_form.get_data_dict()
@@ -152,6 +151,7 @@ def session_checkout(request, *args, **kwargs):
             instance=create_payment_model(request.session['PaymentForm']))
         payment_form.not_required_fields()
         rating_form = RatingForm()
+        rating_form.read_from_dict(request.session['RatingForm'])
 
     return render(request, 'catalogue/checkout/CheckoutAccordion.html', {
         'ContactForm': contact_form,
@@ -169,7 +169,17 @@ def checkout_review(request, *args, **kwargs):
         if request.POST.get("Back") == "Back":
             return redirect('session_checkout', id=kwargs['id'])
         if contact_form.is_valid() and payment_form.is_valid():
-            _commit_data(request, contact_form, payment_form, rating_form)
+            posting = Postings.objects.get(id=kwargs['id'])
+            _commit_data(request,
+                         posting,
+                         contact_form,
+                         payment_form)
+
+            rating = request.session['RatingForm']['rating']
+            if rating:
+                _commit_rating(posting,
+                               request.user,
+                               rating)
             return redirect('catalogue-index')
     else:
         contact_form = ContactReviewForm(
@@ -177,9 +187,7 @@ def checkout_review(request, *args, **kwargs):
         payment_form = PaymentReviewForm(
             instance=create_payment_model(request.session['PaymentForm']))
         rating_form = RatingReviewForm(
-            instance=create_rating_model(request.session['RatingForm'],
-                                         request,
-                                         Postings.objects.get(id=kwargs['id'])))
+            instance=create_rating_model(request.session['RatingForm']))
         _init_read_only_forms(request, contact_form, payment_form, rating_form)
 
     return render(request, 'catalogue/checkout/checkout_review.html', {
@@ -213,7 +221,27 @@ def _init_read_only_forms(request, contact_form, payment_form, rating_form):
     rating_form.disable_fields()
 
 
-def _commit_data(request, contact_form, payment_form, rating_form):
+def _commit_data(request, posting, contact_form, payment_form):
     contact = contact_form.save()
     payment = payment_form.save()
-    # rating_form.save()
+
+    order = Orders()
+    order.posting = posting
+    order.contact = contact
+    order.payment = payment
+    order.save()
+
+    _close_posting(posting)
+
+
+def _commit_rating(posting, user, rating):
+    new_rating = Ratings()
+    new_rating.posting = posting
+    new_rating.user = user
+    new_rating.rating = rating
+    new_rating.save()
+
+
+def _close_posting(posting):
+    posting.open = False
+    posting.save()
