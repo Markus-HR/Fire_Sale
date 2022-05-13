@@ -100,6 +100,11 @@ footer {
     color: black;
 }
 
+.btn-primary:focus {
+    background-color: #ffc86b;
+    color: black;
+}
+
 .form-check-input:checked {
     background-color: #FABB51;
     border-color: #FABB51;
