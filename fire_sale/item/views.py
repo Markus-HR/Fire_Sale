@@ -19,7 +19,6 @@ def index(request, id):
     post = get_object_or_404(Postings, pk=post_id)
     if not post.open:
         return redirect('catalogue-index')
-    #user = get_user()
     if request.method == 'POST':
         form = BidCreateForm(data=request.POST)
         if form.is_valid():
@@ -62,10 +61,6 @@ def create_posting(request):
     return render(request, 'item/create_posting.html', {
         'form': form
     })
-
-
-def get_poster_name(post_id):
-    pass
 
 
 def get_images_lis(item):
