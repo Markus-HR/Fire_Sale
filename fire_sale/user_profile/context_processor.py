@@ -12,10 +12,11 @@ def calc_rating(request):
 
 
 def get_profile(request):
-    profile_picture = "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+    profile_picture = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
     if UserProfile.objects.filter(user_id=request.user.id).exists():
         user_profile = UserProfile.objects.filter(user_id=request.user.id)[0]
-        profile_picture = user_profile.profile_picture
+        if len(user_profile.profile_picture) > 0:
+            profile_picture = user_profile.profile_picture
     else:
         user_profile = []
 
