@@ -18,7 +18,7 @@ values
     ('Old car', 'https://www.carcovers.com/media/carcover/resource/classiccar.jpg', 'not great', 'Its a bad car', 2),
     ('Doll', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIj6DJSxfo2V6wJ9jsXHUvOQOMqA7HAvcxnQ&usqp=CAU', 'Great', 'Its a doll', 1),
     ('TV', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Old_TV.jpg/2502px-Old_TV.jpg', 'Great', 'Its old but works amazingly', 5);
-
+select * from catalogue_bids
 
 alter sequence catalogue_postings_id_seq restart with 1;
 delete from catalogue_postings;
