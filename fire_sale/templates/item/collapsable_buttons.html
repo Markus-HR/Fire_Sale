@@ -28,7 +28,7 @@
             <hr/>
             {% if bids %}
                 {% for bid in bids %}
-                    <p>${{ bid.price }} from {{ bid.user.username }}</p>
+                    <p>${{ bid.price }} from {{ bid.user.first_name }}</p>
                 {% endfor %}
             {% else %}
                 <p>No pids yet.</p>
