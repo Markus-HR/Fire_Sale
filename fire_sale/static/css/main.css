@@ -154,3 +154,15 @@ footer {
 .name-link {
     color: black;
 }
+
+.about-container {
+    background-color: #b8ddc4;
+    padding: 0.5rem;
+    padding-top: 1rem;
+}
+
+.about-img {
+    width: 100%;
+    object-fit: contain;
+    margin-bottom: 0.5em;
+}
