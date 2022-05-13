@@ -269,3 +269,8 @@ def _commit_rating(posting, user, rating):
 def _close_posting(posting):
     posting.open = False
     posting.save()
+
+
+# Other section
+def about_us(request):
+    return render(request, 'other/about_us.html')
