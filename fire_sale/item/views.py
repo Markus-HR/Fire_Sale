@@ -39,7 +39,7 @@ def index(request, id):
         'item': item,
         'images': get_images_lis(item),
         'date': post.creation_date,
-        'seller': {'user': post.user.username, 'user_id': post.user_id},
+        'seller': {'user': post.user.first_name, 'user_id': post.user_id},
         'bids': bids_lis,
         'max_bid': get_max_bid(bids_lis),
         'user_bid': get_user_max_bid(request.user.id, bids_lis),
@@ -211,7 +211,7 @@ def get_post_bids(post_id):
         'p_bid_id': x.id,
         'price': x.price,
         'accepted': x.accept,
-        'user': x.user.username,
+        'user': x.user.first_name,
         'user_id': x.user_id,
         'user_rating': calculate_user_rating(x.user_id),
     } for x in Bids.objects.filter(posting_id=post_id).order_by('-price')]
