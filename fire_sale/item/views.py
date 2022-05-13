@@ -158,7 +158,7 @@ def view_offers(request, id):
     return render(request, 'item/view_offers/offers.html', {
         'item': get_object_or_404(Items, pk=id),
         'seller_id': get_user_from_post_id(post_id),
-        'has_accepted_bid': check_accepted_bid(post_id),
+        'has_accepted_bid': check_accepted_bid(post_id)[0],
         'bids': get_post_bids(post_id),
     })
 
