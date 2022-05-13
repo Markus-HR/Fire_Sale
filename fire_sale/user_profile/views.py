@@ -66,10 +66,10 @@ def edit_profile(request, *args, **kwargs):
 
 
 def view_profile(request, userid):
-    user = get_object_or_404(User, pk=userid)
+    view_user = get_object_or_404(User, pk=userid)
     user_profile = get_user_profile(userid)
     return render(request, 'user/view_profile.html', {
-        'user': user,
+        'viewedUser': view_user,
         'userProfile': user_profile,
         'userRating': calculate_user_rating(userid),
         'data': get_post_item(userid)
